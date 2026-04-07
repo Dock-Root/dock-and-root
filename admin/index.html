@@ -12,6 +12,77 @@
 <body>
     <!-- Include the Decap CMS script -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <script>
+        // ── CUSTOM FLAG HASHER WIDGET FOR DECAP CMS ──
+        const FlagControl = createClass({
+            getInitialState: function () {
+                return { rawFlag: '' };
+            },
+            handleChange: async function (e) {
+                const raw = e.target.value;
+                this.setState({ rawFlag: raw });
+
+                if (!raw) {
+                    this.props.onChange('');
+                    return;
+                }
+
+                // Generate SHA-256
+                const msgBuffer = new TextEncoder().encode(raw);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashStr = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                // Tell Decap CMS to save the hash, NOT the raw flag!
+                this.props.onChange(hashStr);
+            },
+            render: function () {
+                return h('div', {
+                    style: {
+                        border: '1px solid rgba(34,255,85,0.4)',
+                        padding: '20px',
+                        borderRadius: '8px',
+                        background: 'rgba(34,255,85,0.03)',
+                        fontFamily: 'system-ui, sans-serif'
+                    }
+                },
+                    h('label', {
+                        style: { color: '#22ff55', fontWeight: '700', fontSize: '14px', display: 'block', marginBottom: '10px' }
+                    }, '🔑 Auto-Hashing Flag Input'),
+                    h('p', {
+                        style: { color: '#9ca3af', fontSize: '13px', marginBottom: '16px', lineHeight: '1.5' }
+                    }, 'Type the raw flag here (e.g. DRL{flag}). This widget automatically generates the SHA-256 hash. The raw flag is discarded and NEVER sent to GitHub.'),
+                    h('input', {
+                        type: 'password',
+                        placeholder: 'Paste raw flag here...',
+                        value: this.state.rawFlag,
+                        onChange: this.handleChange,
+                        style: {
+                            width: '100%',
+                            padding: '12px 16px',
+                            background: '#0d0d14',
+                            color: '#e4e4e7',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            borderRadius: '6px',
+                            fontFamily: 'monospace',
+                            fontSize: '14px',
+                            outline: 'none',
+                            boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.5)'
+                        }
+                    }),
+                    h('div', {
+                        style: { marginTop: '16px', background: '#050508', padding: '12px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.05)' }
+                    },
+                        h('div', { style: { fontSize: '11px', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '6px' } }, 'Stored Hash:'),
+                        h('code', { style: { color: '#0ea5e9', fontSize: '12px', wordBreak: 'break-all' } }, this.props.value || 'No flag set')
+                    )
+                );
+            }
+        });
+
+        CMS.registerWidget('flag_hasher', FlagControl);
+    </script>
 </body>
 
 </html>

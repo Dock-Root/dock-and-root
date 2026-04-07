@@ -44,26 +44,29 @@ collections:
       - label: "Skills"
         name: "skills"
         widget: "list"
+        collapsed: true
         hint: "e.g. SQL Injection, Burp Suite"
         field: { label: "Skill", name: "skill", widget: "string" }
       - label: "Prerequisites"
         name: "prerequisites"
         widget: "list"
+        collapsed: true
         hint: "What the user should already know"
         field: { label: "Prerequisite", name: "prerequisite", widget: "string" }
       - label: "Objectives"
         name: "objectives"
         widget: "list"
+        collapsed: true
         hint: "Ordered learning objectives"
         field: { label: "Objective", name: "objective", widget: "string" }
       - { label: "GitHub URL",  name: "githubUrl",    widget: "string",  hint: "Full URL to the machine's GitHub repository" }
       - label: "Docker Commands"
         name: "dockerCommands"
         widget: "list"
+        collapsed: true
         hint: "Setup commands (git clone, cd, docker compose up)"
         field: { label: "Command", name: "command", widget: "string" }
       - label: "Flag Hash (SHA-256)"
         name: "flagHash"
-        widget: "string"
-        hint: "SHA-256 hash of the flag. Use /admin/hash.html to generate. NEVER store the raw flag here."
+        widget: "flag_hasher"
         required: false
