@@ -1,39 +1,39 @@
 {
-  "id": 4,
-  "slug": "crypto-fundamentals",
-  "title": "Cipher",
-  "icon": "🔐",
-  "avatar": "img/avatar-crypto.png",
-  "difficulty": "Easy",
-  "category": "Crypto",
-  "description": "Decrypt intercepted ciphertexts using classic and modern cryptographic attacks. Covers Caesar, XOR, and weak RSA.",
   "longDescription": "Three encrypted messages are waiting. Each uses a progressively harder cipher: Caesar rotation, single-byte XOR, and textbook RSA with dangerously small primes.\n\nNo crypto library is required — brute force, frequency analysis, and basic math will get you through. The flag is assembled from fragments inside each decrypted message.\n\n### What you will practice\nFrequency analysis, XOR bruteforcing, RSA factor recovery with small primes, and Python scripting for crypto attacks.",
-  "creator": "Dock & Root Labs",
-  "releaseDate": "2026-02-10",
-  "estimatedTime": "45 min",
-  "points": 100,
   "skills": [
     "Classical Ciphers",
     "XOR Analysis",
     "RSA Attacks",
     "Python Scripting"
   ],
-  "prerequisites": [
-    "Basic Python",
-    "Number theory basics",
-    "Interest in math"
+  "points": 100,
+  "dockerCommands": [
+    "git clone https://github.com/dock-and-root-labs/crypto-fundamentals",
+    "cd crypto-fundamentals",
+    "docker compose up -d"
   ],
+  "estimatedTime": "45 min",
+  "slug": "crypto-fundamentals",
+  "creator": "Dock & Root Labs",
+  "githubUrl": "https://github.com/dock-and-root-labs/crypto-fundamentals",
+  "releaseDate": "2026-02-10",
+  "title": "Cipher",
+  "icon": "🔐",
+  "avatar": "img/avatar-crypto.png",
   "objectives": [
     "Decrypt a Caesar-shifted ciphertext via frequency analysis",
     "Recover the XOR key and decrypt the second message",
     "Factor the RSA modulus and decrypt the third message",
     "Assemble the three flag fragments"
   ],
-  "githubUrl": "https://github.com/dock-and-root-labs/crypto-fundamentals",
-  "dockerCommands": [
-    "git clone https://github.com/dock-and-root-labs/crypto-fundamentals",
-    "cd crypto-fundamentals",
-    "docker compose up -d"
+  "flagHash": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+  "id": 4,
+  "difficulty": "Easy",
+  "description": "Decrypt intercepted ciphertexts using classic and modern cryptographic attacks. Covers Caesar, XOR, and weak RSA.",
+  "prerequisites": [
+    "Basic Python",
+    "Number theory basics",
+    "Interest in math"
   ],
-  "flagHash": "b3cc8b194cad50b8056456bdf617663d4a5b25e0e185d8985ab68e92a3b498af"
+  "category": "Crypto"
 }
