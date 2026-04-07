@@ -364,10 +364,11 @@
       ${dateHTML}
     `;
 
-                document.getElementById('machine-objectives').innerHTML =
-                    (lab.objectives || []).map(o => `<li>${o}</li>`).join('');
+                const objEl = document.getElementById('machine-objectives');
+                if (objEl) objEl.innerHTML = (lab.objectives || []).map(o => `<li>${o}</li>`).join('');
 
-                document.getElementById('docker-commands').textContent = (lab.dockerCommands || []).join('\n');
+                const cmdEl = document.getElementById('docker-commands');
+                if (cmdEl) cmdEl.textContent = (lab.dockerCommands || []).join('\n');
 
                 const raw = lab.longDescription || '';
                 const html = raw
