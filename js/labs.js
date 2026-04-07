@@ -27,8 +27,9 @@ window.loadLabs = function () {
       return r.json();
     })
     .then(data => {
-      window.LABS = data;
-      _resolve(data);
+      // Decap CMS saves the list inside a "machines" root object property
+      window.LABS = data.machines || [];
+      _resolve(window.LABS);
     })
     .catch(err => {
       console.error('[Dock & Root] Could not load lab data:', err);
