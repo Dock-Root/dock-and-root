@@ -365,9 +365,9 @@
     `;
 
                 document.getElementById('machine-objectives').innerHTML =
-                    lab.objectives.map(o => `<li>${o}</li>`).join('');
+                    (lab.objectives || []).map(o => `<li>${o}</li>`).join('');
 
-                document.getElementById('docker-commands').textContent = lab.dockerCommands.join('\n');
+                document.getElementById('docker-commands').textContent = (lab.dockerCommands || []).join('\n');
 
                 const raw = lab.longDescription || '';
                 const html = raw
@@ -380,10 +380,10 @@
                 document.getElementById('machine-long-desc').innerHTML = html;
 
                 document.getElementById('machine-skills').innerHTML =
-                    lab.skills.map(s => `<span class="tag">${s}</span>`).join('');
+                    (lab.skills || []).map(s => `<span class="tag">${s}</span>`).join('');
 
                 document.getElementById('machine-prereqs').innerHTML =
-                    lab.prerequisites.map(p => `<li>${p}</li>`).join('');
+                    (lab.prerequisites || []).map(p => `<li>${p}</li>`).join('');
 
                 document.getElementById('github-link').href = lab.githubUrl;
 
