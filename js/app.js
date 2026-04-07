@@ -155,6 +155,45 @@ function setupCopyButtons() {
   });
 }
 
+// --- Base URL Helper ---
+function _base() {
+  const d = window.location.pathname.split('/').length - 2;
+  return d > 0 ? '../'.repeat(d) : '';
+}
+
+// --- Intersection Observer for Scroll Reveals ---
+function initScrollReveals() {
+  const reveals = document.querySelectorAll('.reveal');
+  if (!reveals.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px', threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+}
+
+// --- Navbar Scroll Effect ---
+function initNavbarScroll() {
+  const nav = document.getElementById('navbar');
+  if (!nav) return;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  renderNavbar();
+  renderFooter();
+  initNavbarScroll();
+
+  // Call initScrollReveals slightly delayed so content renders first
+  setTimeout(initScrollReveals, 50);
   setupCopyButtons();
 });
