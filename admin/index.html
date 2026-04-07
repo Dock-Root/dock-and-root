@@ -54,7 +54,7 @@
                         style: { color: '#9ca3af', fontSize: '13px', marginBottom: '16px', lineHeight: '1.5' }
                     }, 'Type the raw flag here (e.g. DRL{flag}). This widget automatically generates the SHA-256 hash. The raw flag is discarded and NEVER sent to GitHub.'),
                     h('input', {
-                        type: 'password',
+                        type: 'text',
                         placeholder: 'Paste raw flag here...',
                         value: this.state.rawFlag,
                         onChange: this.handleChange,
