@@ -13,18 +13,13 @@ collections:
   - name: "machines"
     label: "Machines"
     label_singular: "Machine"
-    # Manages the single labs.json file as a list
-    files:
-      - name: "labs"
-        label: "All Machines"
-        file: "data/labs.json"
-        fields:
-          - label: "Machines"
-            name: "machines"
-            widget: "list"
-            summary: "{{fields.title}} — {{fields.difficulty}} {{fields.category}}"
-            fields:
-              - { label: "ID",          name: "id",           widget: "number",  value_type: "int" }
+    folder: "data/machines"
+    create: true
+    format: "json"
+    slug: "{{slug}}"
+    summary: "{{title}} — {{difficulty}} {{category}}"
+    fields:
+      - { label: "ID",          name: "id",           widget: "number",  value_type: "int" }
               - { label: "Slug",        name: "slug",         widget: "string",  hint: "URL-safe identifier e.g. web-sql-injection" }
               - { label: "Title",       name: "title",        widget: "string" }
               - { label: "Icon",        name: "icon",         widget: "string",  default: "🎯", hint: "Emoji icon" }

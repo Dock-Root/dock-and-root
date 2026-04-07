@@ -1,0 +1,39 @@
+{
+  "id": 6,
+  "slug": "network-traffic-analysis",
+  "title": "Wiretap",
+  "icon": "📡",
+  "avatar": "img/avatar-network-analysis.png",
+  "difficulty": "Medium",
+  "category": "Networking",
+  "description": "Analyze a PCAP capture of suspicious network traffic. Reconstruct the attack, extract credentials, and recover the hidden flag.",
+  "longDescription": "You are given a packet capture file from a compromised network segment. Inside: cleartext credential submission, a file transfer, and an exfiltrated secret hidden in DNS queries.\n\nUse Wireshark and tshark to filter, reconstruct, and decode the traffic streams. No active exploitation required — this is pure packet analysis.\n\n### What you will practice\nWireshark filters, TCP stream reconstruction, HTTP credential extraction, DNS-based data exfiltration detection, and file carving from PCAPs.",
+  "creator": "Dock & Root Labs",
+  "releaseDate": "2026-03-01",
+  "estimatedTime": "60 min",
+  "points": 250,
+  "skills": [
+    "Wireshark",
+    "tshark",
+    "TCP Reconstruction",
+    "DNS Analysis",
+    "File Carving"
+  ],
+  "prerequisites": [
+    "TCP/IP basics",
+    "Wireshark installed on host",
+    "Basic networking knowledge"
+  ],
+  "objectives": [
+    "Identify the attacker's IP address and attack timeline",
+    "Extract the cleartext credentials from HTTP traffic",
+    "Reconstruct the transferred file from the PCAP",
+    "Decode the flag hidden inside DNS query names"
+  ],
+  "githubUrl": "https://github.com/dock-and-root-labs/network-traffic-analysis",
+  "dockerCommands": [
+    "git clone https://github.com/dock-and-root-labs/network-traffic-analysis",
+    "cd network-traffic-analysis"
+  ],
+  "flagHash": "7a60e18b4416ccbb63af955d0ec7fcc2144aa02293c13dc983cc9c390fd307d5"
+}

@@ -1,0 +1,39 @@
+{
+  "id": 5,
+  "slug": "buffer-overflow-basics",
+  "title": "Smash",
+  "icon": "💥",
+  "avatar": "img/avatar-buffer-overflow.png",
+  "difficulty": "Medium",
+  "category": "Pwn",
+  "description": "Smash the stack on a 32-bit Linux binary with no stack canary. Redirect execution to a win function and pop a shell.",
+  "longDescription": "A deliberately vulnerable C binary is running as a network service. It reads user input into a fixed-size stack buffer without bounds checking. No stack canary. NX disabled. Perfect for learning classic stack-based buffer overflows.\n\nFind the offset to the return address, craft a payload, and redirect execution to the hidden win() function to get a shell and read the flag.\n\n### What you will practice\nGDB debugging, pattern offset calculation with pwntools, crafting a basic ROP chain, and writing a Python exploit script.",
+  "creator": "Dock & Root Labs",
+  "releaseDate": "2026-02-20",
+  "estimatedTime": "90 min",
+  "points": 300,
+  "skills": [
+    "Stack Smashing",
+    "GDB Debugging",
+    "pwntools",
+    "Return Address Override"
+  ],
+  "prerequisites": [
+    "C memory model",
+    "Assembly basics",
+    "Python pwntools installed"
+  ],
+  "objectives": [
+    "Identify the vulnerable buffer and compute the overflow offset",
+    "Locate the win() function address in the binary",
+    "Craft a payload that overwrites the return address",
+    "Get a shell on the remote service and read the flag"
+  ],
+  "githubUrl": "https://github.com/dock-and-root-labs/buffer-overflow-basics",
+  "dockerCommands": [
+    "git clone https://github.com/dock-and-root-labs/buffer-overflow-basics",
+    "cd buffer-overflow-basics",
+    "docker compose up -d"
+  ],
+  "flagHash": "01f1c341ebf4469fa234d990cd1c6268360f2ccd55dce2dd96ba99fb4f16dd65"
+}

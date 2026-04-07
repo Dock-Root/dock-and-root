@@ -1,0 +1,39 @@
+{
+  "id": 2,
+  "slug": "linux-privilege-escalation",
+  "title": "Escalate",
+  "icon": "🐧",
+  "avatar": "img/avatar-linux-privesc.png",
+  "difficulty": "Medium",
+  "category": "Linux",
+  "description": "Gain an initial foothold as a low-privilege user and escalate to root by chaining common Linux misconfigurations.",
+  "longDescription": "A realistic Debian-based machine where you start with SSH credentials for a low-privilege user. Multiple privilege escalation vectors are planted, including SUID binaries, weak sudo rules, cron job abuse, and world-writable scripts.\n\nYou are expected to enumerate the system, identify exploitable paths, and escalate to root without using Metasploit.\n\n### What you will practice\nManual enumeration techniques (sudo -l, SUID find, cron inspection), PATH hijacking, and writing simple exploit scripts.",
+  "creator": "Dock & Root Labs",
+  "releaseDate": "2026-01-20",
+  "estimatedTime": "60 min",
+  "points": 250,
+  "skills": [
+    "Linux Enumeration",
+    "SUID Abuse",
+    "Sudo Exploitation",
+    "PATH Hijacking"
+  ],
+  "prerequisites": [
+    "Comfortable with bash",
+    "Basic Linux file permissions",
+    "SSH access"
+  ],
+  "objectives": [
+    "Connect to the target via SSH with provided credentials",
+    "Enumerate sudo rules, SUID binaries, and cron jobs",
+    "Identify at least one exploitable privilege escalation vector",
+    "Gain a root shell and read /root/flag.txt"
+  ],
+  "githubUrl": "https://github.com/dock-and-root-labs/linux-privilege-escalation",
+  "dockerCommands": [
+    "git clone https://github.com/dock-and-root-labs/linux-privilege-escalation",
+    "cd linux-privilege-escalation",
+    "docker compose up -d"
+  ],
+  "flagHash": "4aa0a4a71905f84f1f3a1ee32ebfc166481208bf7b94c430aef7a36d2ab550de"
+}

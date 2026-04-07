@@ -1,0 +1,39 @@
+{
+  "id": 1,
+  "slug": "web-sql-injection",
+  "title": "Injector",
+  "icon": "💉",
+  "avatar": "img/avatar-sql-injection.png",
+  "difficulty": "Easy",
+  "category": "Web",
+  "description": "A vulnerable PHP login portal with user data stored in MySQL. Bypass authentication and extract the flag from the database.",
+  "longDescription": "A barebones PHP web application that talks directly to MySQL — no ORM, no parameterized queries, no input validation. The login form passes user-supplied input straight into a SELECT query, making it trivially injectable.\n\nYour job: bypass authentication via SQL injection, enumerate the database schema, and extract the flag from a hidden secrets table.\n\n### What you will practice\nClassic in-band SQL injection, UNION-based data extraction, logical OR authentication bypass, and manual database enumeration without SQLMap.",
+  "creator": "Dock & Root Labs",
+  "releaseDate": "2026-01-10",
+  "estimatedTime": "30 min",
+  "points": 100,
+  "skills": [
+    "SQL Injection",
+    "Auth Bypass",
+    "Database Enumeration",
+    "Burp Suite"
+  ],
+  "prerequisites": [
+    "Basic SQL knowledge",
+    "HTTP fundamentals",
+    "CLI familiarity"
+  ],
+  "objectives": [
+    "Identify the vulnerable login parameter",
+    "Bypass authentication using a SQL logic bypass",
+    "Enumerate the database schema using UNION injection",
+    "Extract the flag from the secrets table"
+  ],
+  "githubUrl": "https://github.com/dock-and-root-labs/web-sql-injection",
+  "dockerCommands": [
+    "git clone https://github.com/dock-and-root-labs/web-sql-injection",
+    "cd web-sql-injection",
+    "docker compose up -d"
+  ],
+  "flagHash": "5508696e0638ebbd98b5ff2993543837713a18f6734201f6b1d51ad687dcb0a2"
+}

@@ -1,0 +1,40 @@
+{
+  "id": 8,
+  "slug": "local-file-inclusion",
+  "title": "Infiltrator",
+  "icon": "📁",
+  "avatar": "img/avatar-lfi.png",
+  "difficulty": "Medium",
+  "category": "Web",
+  "description": "Exploit a PHP LFI vulnerability to read sensitive system files and escalate to Remote Code Execution through log poisoning.",
+  "longDescription": "A PHP web application uses a ?page= parameter to include template files — without sanitizing path traversal sequences. The vulnerability is a textbook Local File Inclusion.\n\nStart by reading /etc/passwd to confirm the vulnerability, then escalate to Remote Code Execution via Apache log poisoning to get a shell and read the flag.\n\n### What you will practice\nPath traversal, PHP wrappers (php://filter), log poisoning via User-Agent injection, and chaining LFI to RCE.",
+  "creator": "Dock & Root Labs",
+  "releaseDate": "2026-03-15",
+  "estimatedTime": "75 min",
+  "points": 250,
+  "skills": [
+    "Path Traversal",
+    "PHP LFI",
+    "Log Poisoning",
+    "RCE via LFI",
+    "Burp Suite"
+  ],
+  "prerequisites": [
+    "HTTP request manipulation",
+    "Basic PHP understanding",
+    "Burp Suite or curl"
+  ],
+  "objectives": [
+    "Identify the LFI vulnerability in the page parameter",
+    "Read /etc/passwd via path traversal",
+    "Poison the Apache access log with PHP code via User-Agent",
+    "Trigger log inclusion to execute code and read the flag"
+  ],
+  "githubUrl": "https://github.com/dock-and-root-labs/local-file-inclusion",
+  "dockerCommands": [
+    "git clone https://github.com/dock-and-root-labs/local-file-inclusion",
+    "cd local-file-inclusion",
+    "docker compose up -d"
+  ],
+  "flagHash": "3694bce077431f8405185d807814f55982aadf074d44acf4d67e4350774d85b9"
+}

@@ -1,0 +1,39 @@
+{
+  "id": 3,
+  "slug": "docker-escape",
+  "title": "Breakout",
+  "icon": "🐳",
+  "avatar": "img/avatar-docker-escape.png",
+  "difficulty": "Hard",
+  "category": "Linux",
+  "description": "You are inside a privileged Docker container. Break out to the host filesystem and capture the root flag.",
+  "longDescription": "You start with a shell inside a Docker container running with elevated privileges. The challenge demonstrates how insecure container configurations — --privileged, exposed Docker socket, dangerous capabilities — can lead to full host compromise.\n\nChain together the misconfigurations to escape the container boundary, pivot to the host, and read the flag from the host's root directory.\n\n### What you will practice\nContainer escape via privileged mode, Docker socket exploitation with nsenter, and understanding the Linux capability model.",
+  "creator": "Dock & Root Labs",
+  "releaseDate": "2026-02-01",
+  "estimatedTime": "90 min",
+  "points": 400,
+  "skills": [
+    "Container Security",
+    "Docker Socket Exploit",
+    "nsenter",
+    "Linux Capabilities"
+  ],
+  "prerequisites": [
+    "Docker fundamentals",
+    "Linux privilege concepts",
+    "Comfortable in a container shell"
+  ],
+  "objectives": [
+    "Understand why --privileged is dangerous",
+    "Mount the host filesystem from inside the container",
+    "Escape the container namespace using nsenter",
+    "Read /root/flag.txt on the host machine"
+  ],
+  "githubUrl": "https://github.com/dock-and-root-labs/docker-escape",
+  "dockerCommands": [
+    "git clone https://github.com/dock-and-root-labs/docker-escape",
+    "cd docker-escape",
+    "docker compose up -d"
+  ],
+  "flagHash": "5bf415943fa29305da8bbc79f47ab7f63f4febe5321f27fa2eb3d4426be2ca1a"
+}
