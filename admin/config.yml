@@ -22,7 +22,7 @@ collections:
       - { label: "ID",          name: "id",           widget: "number",  value_type: "int" }
       - { label: "Slug",        name: "slug",         widget: "string",  hint: "URL-safe identifier e.g. web-sql-injection" }
       - { label: "Title",       name: "title",        widget: "string" }
-      - { label: "Icon",        name: "icon",         widget: "string",  default: "🎯", hint: "Emoji icon" }
+      - { label: "Icon",        name: "icon",         widget: "string",  default: "🎯", hint: "Emoji icon", required: false }
       - label: "Avatar Image"
         name: "avatar"
         widget: "image"
@@ -38,7 +38,7 @@ collections:
       - { label: "Short Description", name: "description",     widget: "text",   hint: "2-3 sentence summary shown on the card" }
       - { label: "Long Description",  name: "longDescription", widget: "markdown", hint: "Full description shown on the machine page. Supports markdown." }
       - { label: "Creator",     name: "creator",      widget: "string",  default: "Dock & Root Labs" }
-      - { label: "Release Date",name: "releaseDate",  widget: "date",    format: "YYYY-MM-DD" }
+      - { label: "Release Date",name: "releaseDate",  widget: "datetime",  format: "YYYY-MM-DD", required: false }
       - { label: "Estimated Time", name: "estimatedTime", widget: "string", default: "60 min" }
       - { label: "Points",      name: "points",       widget: "number",  value_type: "int", default: 100 }
       - label: "Skills"
