@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machines — Dock & Root Labs</title>
+    <meta name="description" content="Browse Docker-based cybersecurity machines. Clone, run, and hack locally.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header id="navbar"></header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <div class="section-label">Catalog</div>
+                <h1>Machines</h1>
+                <p>Docker-based target machines you run locally. Clone, hack, capture the flag.</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-bar">
+                <input type="text" id="search" class="search-input" placeholder="Search machines..." autocomplete="off">
+
+                <div class="filter-group">
+                    <span style="font-size:0.78rem;color:var(--text-muted);margin-right:4px">Difficulty:</span>
+                    <button class="filter-btn active" data-diff="all">All</button>
+                    <button class="filter-btn" data-diff="Easy">Easy</button>
+                    <button class="filter-btn" data-diff="Medium">Medium</button>
+                    <button class="filter-btn" data-diff="Hard">Hard</button>
+                </div>
+
+                <div class="filter-group">
+                    <span style="font-size:0.78rem;color:var(--text-muted);margin-right:4px">Category:</span>
+                    <button class="filter-btn active" data-cat="all">All</button>
+                    <button class="filter-btn" data-cat="Web">Web</button>
+                    <button class="filter-btn" data-cat="Linux">Linux</button>
+                    <button class="filter-btn" data-cat="Crypto">Crypto</button>
+                    <button class="filter-btn" data-cat="Pwn">Pwn</button>
+                    <button class="filter-btn" data-cat="Reverse Engineering">RE</button>
+                    <button class="filter-btn" data-cat="Networking">Network</button>
+                </div>
+            </div>
+
+            <!-- Count -->
+            <div id="machine-count"
+                style="font-size:0.8rem;color:var(--text-muted);margin-bottom:20px;font-family:var(--font-mono)"></div>
+
+            <!-- Grid -->
+            <div class="labs-grid" id="machine-grid"></div>
+
+            <!-- Empty -->
+            <div id="empty-state" class="empty-state hidden">
+                <div class="empty-state-icon">🔍</div>
+                <h3>No machines found</h3>
+                <p>Try a different search term or filter.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/labs.js"></script>
+    <script>
+        renderNavbar('machines');
+        renderFooter();
+
+        loadLabs().then(() => {
+            let activeDiff = 'all';
+            let activeCat = 'all';
+            let query = '';
+
+            function renderMachines() {
+                const filtered = LABS.filter(lab => {
+                    const matchDiff = activeDiff === 'all' || lab.difficulty === activeDiff;
+                    const matchCat = activeCat === 'all' || lab.category === activeCat;
+                    const matchQ = !query ||
+                        lab.title.toLowerCase().includes(query) ||
+                        lab.description.toLowerCase().includes(query) ||
+                        lab.category.toLowerCase().includes(query) ||
+                        lab.skills.some(s => s.toLowerCase().includes(query));
+                    return matchDiff && matchCat && matchQ;
+                });
+
+                const grid = document.getElementById('machine-grid');
+                const empty = document.getElementById('empty-state');
+                const count = document.getElementById('machine-count');
+
+                count.textContent = `// Showing ${filtered.length} of ${LABS.length} machines`;
+
+                if (!filtered.length) {
+                    grid.innerHTML = '';
+                    empty.classList.remove('hidden');
+                    return;
+                }
+
+                empty.classList.add('hidden');
+                grid.innerHTML = filtered.map((lab, i) => {
+                    const diffClass = getDifficultyClass(lab.difficulty);
+                    return `
+        <a href="machine.html?slug=${lab.slug}" class="lab-card card-anim-enter" style="animation-delay: ${i * 0.05}s" data-tilt data-tilt-max="4" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.05">
+          <div class="lab-card-art">
+            <span class="badge badge-${diffClass} lab-card-diff-badge">${lab.difficulty}</span>
+            <div class="lab-card-art-circle ring-${diffClass}"><img src="${lab.avatar}" alt="${lab.title}"></div>
+          </div>
+          <div class="lab-card-body">
+            <div class="lab-card-tags">
+              <span class="tag tag-${getCategoryClass(lab.category)}">${lab.category}</span>
+            </div>
+            <div class="lab-card-title">${lab.title}</div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); display:flex; justify-content: space-between; font-weight: 600; text-transform: uppercase; margin: 2px 0 4px;">
+               <span style="color:var(--accent-cyan)">👤 ${lab.creator || 'Dock & Root'}</span>
+               <span>${lab.releaseDate || ''}</span>
+            </div>
+            <p class="lab-card-desc">${lab.description}</p>
+            <div class="lab-card-footer">
+              <span>⏱ ${lab.estimatedTime}</span>
+              ${isSolved(lab.slug) ? '<span style="color:var(--accent-green);font-weight:700">✅ Solved</span>' : `<span style="color:var(--accent-green);font-weight:700">${lab.points} pts</span>`}
+            </div>
+          </div>
+        </a>
+      `;
+                }).join('');
+
+                // Mouse tracking for spotlight glow effect
+                document.querySelectorAll('.lab-card').forEach(card => {
+                    card.addEventListener('mousemove', e => {
+                        const rect = card.getBoundingClientRect(),
+                            x = e.clientX - rect.left,
+                            y = e.clientY - rect.top;
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+                    });
+                });
+
+                // Re-initialize vanilla tilt for newly rendered cards
+                if (typeof VanillaTilt !== 'undefined') {
+                    VanillaTilt.init(document.querySelectorAll(".lab-card"));
+                }
+            }
+
+            document.querySelectorAll('[data-diff]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('[data-diff]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeDiff = btn.dataset.diff;
+                    renderMachines();
+                });
+            });
+
+            document.querySelectorAll('[data-cat]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeCat = btn.dataset.cat;
+                    renderMachines();
+                });
+            });
+
+            document.getElementById('search').addEventListener('input', e => {
+                query = e.target.value.toLowerCase().trim();
+                renderMachines();
+            });
+
+            renderMachines();
+        }); // end loadLabs().then
+    </script>
+</body>
+
+</html>

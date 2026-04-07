@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog — Dock & Root Labs</title>
+    <meta name="description"
+        content="Cybersecurity tutorials, writeups, Docker guides, and security research from Dock & Root Labs.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <header id="navbar"></header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <div class="section-label">Knowledge Base</div>
+                <h1>Blog</h1>
+                <p>Writeups, tutorials, Docker security guides, and cybersecurity research.</p>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="filter-bar" style="margin-bottom:32px">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-cat="all">All Posts</button>
+                    <button class="filter-btn" data-cat="Guides">Guides</button>
+                    <button class="filter-btn" data-cat="Tutorials">Tutorials</button>
+                    <button class="filter-btn" data-cat="Writeups">Writeups</button>
+                </div>
+            </div>
+
+            <div class="blog-grid" id="blog-grid"></div>
+
+            <div id="empty-blog" class="empty-state hidden">
+                <div class="empty-state-icon">📝</div>
+                <h3>No posts in this category</h3>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/blog.js"></script>
+    <script>
+        renderNavbar('blog');
+        renderFooter();
+
+        let activeCat = 'all';
+
+        function renderBlog() {
+            const posts = activeCat === 'all'
+                ? BLOG_POSTS
+                : BLOG_POSTS.filter(p => p.category === activeCat);
+
+            const grid = document.getElementById('blog-grid');
+            const empty = document.getElementById('empty-blog');
+
+            if (!posts.length) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            grid.innerHTML = posts.map(post => `
+      <a href="post.html?slug=${post.slug}" class="blog-card">
+        <div class="blog-card-cover">${post.emoji}</div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>${formatDate(post.date)}</span>
+            <span>·</span>
+            <span>${post.readTime} read</span>
+            <span>·</span>
+            <span style="color:var(--accent-green)">${post.category}</span>
+          </div>
+          <div class="blog-card-title">${post.title}</div>
+          <p class="blog-card-excerpt">${post.excerpt}</p>
+          <div class="blog-card-tags">
+            ${post.tags.map(t => `<span class="tag">#${t}</span>`).join('')}
+          </div>
+        </div>
+      </a>
+    `).join('');
+        }
+
+        document.querySelectorAll('[data-cat]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCat = btn.dataset.cat;
+                renderBlog();
+            });
+        });
+
+        renderBlog();
+    </script>
+</body>
+
+</html>

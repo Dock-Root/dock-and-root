@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — Dock & Root Labs</title>
+    <meta name="description"
+        content="Learn about Dock and Root Labs — a free, open-source Docker-based cybersecurity lab platform.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header id="navbar"></header>
+
+    <main class="page-content">
+        <div class="container">
+
+            <div class="page-header">
+                <div class="section-label">About</div>
+                <h1>About Dock &amp; Root Labs</h1>
+                <p>A free, community-driven cybersecurity lab platform built around Docker.</p>
+            </div>
+
+            <!-- Mission -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:64px">
+                <div>
+                    <div class="section-label">Mission</div>
+                    <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:16px">Hands-On Learning.<br>Zero Cost.
+                    </h2>
+                    <p>Dock &amp; Root Labs was created to give everyone access to real, practical cybersecurity
+                        training without needing expensive VMs, cloud subscriptions, or proprietary platforms.</p>
+                    <p>Every lab is open source, runs locally on your machine using Docker, and focuses on skills that
+                        matter in the real world.</p>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+                        <a href="machines.html" class="btn btn-primary">Explore Machines</a>
+                        <a href="https://github.com/dock-and-root-labs" target="_blank" class="btn btn-secondary">GitHub
+                            Org</a>
+                    </div>
+                </div>
+                <div class="about-terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dot"></div>
+                        <div class="terminal-dot"></div>
+                        <div class="terminal-dot"></div>
+                        <span
+                            style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);margin-left:8px">~/dock-and-root</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div><span class="terminal-prompt">$ </span><span class="terminal-cmd">whoami</span></div>
+                        <div class="terminal-out">dock-and-root-labs</div>
+                        <br>
+                        <div><span class="terminal-prompt">$ </span><span class="terminal-cmd">cat mission.txt</span>
+                        </div>
+                        <div class="terminal-out">Make cybersecurity practice</div>
+                        <div class="terminal-out">accessible to everyone.</div>
+                        <div class="terminal-out">Free. Open. Docker-powered.</div>
+                        <br>
+                        <div><span class="terminal-prompt">$ </span><span class="terminal-cursor"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Values -->
+            <div style="margin-bottom:64px">
+                <div class="section-label">Values</div>
+                <h2 style="font-size:1.5rem;margin-bottom:32px">What We Stand For</h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+                    <div class="card">
+                        <div style="font-size:1.6rem;margin-bottom:12px">🔓</div>
+                        <h4 style="color:var(--text-primary);margin-bottom:8px">Open Source</h4>
+                        <p style="font-size:0.85rem;margin:0">Every lab and this website are open source on GitHub.
+                            Fork, contribute, improve.</p>
+                    </div>
+                    <div class="card">
+                        <div style="font-size:1.6rem;margin-bottom:12px">🎓</div>
+                        <h4 style="color:var(--text-primary);margin-bottom:8px">Education First</h4>
+                        <p style="font-size:0.85rem;margin:0">Labs are designed to teach, not just test. Writeups and
+                            explanations are always encouraged.</p>
+                    </div>
+                    <div class="card">
+                        <div style="font-size:1.6rem;margin-bottom:12px">🐳</div>
+                        <h4 style="color:var(--text-primary);margin-bottom:8px">Docker Native</h4>
+                        <p style="font-size:0.85rem;margin:0">Container-first design. No heavy VMs. Quick setup, clean
+                            teardown.</p>
+                    </div>
+                    <div class="card">
+                        <div style="font-size:1.6rem;margin-bottom:12px">🌍</div>
+                        <h4 style="color:var(--text-primary);margin-bottom:8px">Community-Driven</h4>
+                        <p style="font-size:0.85rem;margin:0">Labs are created by the community. Anyone can contribute a
+                            challenge.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Contributing -->
+            <div
+                style="background:var(--bg-secondary);border:1px solid var(--border-subtle);border-radius:var(--radius-xl);padding:40px;margin-bottom:64px">
+                <div style="text-align:center;max-width:600px;margin:0 auto">
+                    <div style="font-size:2rem;margin-bottom:16px">🤝</div>
+                    <h3 style="font-size:1.4rem;font-weight:800;margin-bottom:12px">Want to Contribute?</h3>
+                    <p style="margin-bottom:24px">We welcome lab contributions from the community. If you have an idea
+                        for a Docker-based challenge, open an issue or submit a pull request to our GitHub organization.
+                    </p>
+                    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
+                        <a href="https://github.com/dock-and-root-labs" target="_blank" class="btn btn-primary">View
+                            GitHub Org</a>
+                        <a href="mailto:hello@dockandroot.com" class="btn btn-secondary">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        renderNavbar('about');
+        renderFooter();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flag Hasher — Dock &amp; Root Labs Admin</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #050508;
+            color: #e4e4e7;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 560px;
+            background: #0d0d14;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
+        }
+
+        .logo {
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: rgba(34, 255, 85, 0.6);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            margin-bottom: 8px;
+        }
+
+        .sub {
+            font-size: 0.85rem;
+            color: #71717a;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #a1a1aa;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #e4e4e7;
+            font-family: monospace;
+            font-size: 0.9rem;
+            padding: 12px 16px;
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 20px;
+        }
+
+        input:focus {
+            border-color: rgba(34, 255, 85, 0.4);
+            box-shadow: 0 0 0 3px rgba(34, 255, 85, 0.08);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #22ff55;
+            color: #030306;
+            letter-spacing: -0.01em;
+        }
+
+        .btn:hover {
+            background: #33ff66;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 24px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .hash-box {
+            background: #030306;
+            border: 1px solid rgba(34, 255, 85, 0.2);
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-family: monospace;
+            font-size: 0.82rem;
+            color: #22ff55;
+            word-break: break-all;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(34, 255, 85, 0.1);
+            border: 1px solid rgba(34, 255, 85, 0.2);
+            border-radius: 6px;
+            color: #22ff55;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(34, 255, 85, 0.2);
+        }
+
+        .copy-btn.copied {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .hint {
+            margin-top: 12px;
+            font-size: 0.78rem;
+            color: #52525b;
+            line-height: 1.6;
+        }
+
+        .hint strong {
+            color: #a1a1aa;
+        }
+
+        .warning {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 0.78rem;
+            color: #fca5a5;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 28px;
+            font-size: 0.78rem;
+            color: #52525b;
+            text-decoration: none;
+            font-family: monospace;
+        }
+
+        .back-link:hover {
+            color: #a1a1aa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="logo">⚓ Dock &amp; Root Labs · Admin Tools</div>
+        <h1>Flag Hasher</h1>
+        <p class="sub">
+            Generate the SHA-256 hash of a flag before storing it in the CMS.
+            Paste the hash — never the raw flag — into the "Flag Hash" field.
+        </p>
+
+        <label for="flag-input">Raw Flag</label>
+        <input type="password" id="flag-input" placeholder="DRL{y0ur_s3cr3t_fl4g_h3r3}" autocomplete="off"
+            spellcheck="false">
+
+        <button class="btn" id="hash-btn">Generate SHA-256 Hash →</button>
+
+        <div class="result" id="result">
+            <label>SHA-256 Hash — paste this into the CMS</label>
+            <div class="hash-box" id="hash-box">
+                <span id="hash-output"></span>
+                <button class="copy-btn" id="copy-btn">Copy</button>
+            </div>
+            <p class="hint">
+                <strong>Next step:</strong> Go to
+                <a href="/admin/" style="color:#22ff55">Admin → Machines</a>,
+                open the machine entry, and paste this hash into the
+                <strong>"Flag Hash (SHA-256)"</strong> field.
+            </p>
+        </div>
+
+        <div class="warning">
+            🔒 <strong>Security:</strong> This tool runs entirely in your browser — the flag never leaves your device.
+            Do <strong>not</strong> store raw flags in the repo or CMS. Only the hash is safe to commit.
+        </div>
+
+        <a href="/admin/" class="back-link">← Back to Admin</a>
+    </div>
+
+    <script>
+        const btn = document.getElementById('hash-btn');
+        const input = document.getElementById('flag-input');
+        const result = document.getElementById('result');
+        const output = document.getElementById('hash-output');
+        const copyBtn = document.getElementById('copy-btn');
+
+        btn.addEventListener('click', async () => {
+            const flag = input.value.trim();
+            if (!flag) { input.focus(); return; }
+
+            const encoded = new TextEncoder().encode(flag);
+            const buffer = await crypto.subtle.digest('SHA-256', encoded);
+            const hash = Array.from(new Uint8Array(buffer))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+
+            output.textContent = hash;
+            result.classList.add('show');
+            copyBtn.textContent = 'Copy';
+            copyBtn.classList.remove('copied');
+        });
+
+        // Also trigger on Enter
+        input.addEventListener('keydown', e => {
+            if (e.key === 'Enter') btn.click();
+        });
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(output.textContent).then(() => {
+                copyBtn.textContent = '✓ Copied!';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+
+</html>

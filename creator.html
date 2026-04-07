@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Studio — Dock & Root</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/creator.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+</head>
+
+<body>
+
+    <div class="creator-layout">
+        <!-- Left Sidebar: Form Builder -->
+        <div class="creator-sidebar">
+            <div>
+                <h2 style="font-size: 1.5rem; margin-bottom: 4px; letter-spacing: -0.02em;">Creator Studio <span
+                        style="color:var(--accent-amber); font-size:12px; vertical-align: top;">PRO</span></h2>
+                <p style="font-size: 0.85rem;">Build and publish new machines with premium metadata.</p>
+            </div>
+
+            <div class="form-group premium-panel">
+                <label>1. GitHub Repository URL</label>
+                <input type="text" id="repoUrl" class="creator-input"
+                    placeholder="https://github.com/dock-and-root-labs/example">
+                <div class="creator-actions">
+                    <button class="btn-fetch" id="btnGitSync">⬇️ Auto-Fill from GitHub</button>
+                </div>
+            </div>
+
+            <!-- Meta Details -->
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label>Machine Title</label>
+                    <input type="text" id="title" class="creator-input" placeholder="e.g. Injector"
+                        oninput="updatePreview()">
+                </div>
+                <div class="form-group">
+                    <label>System Slug</label>
+                    <input type="text" id="slug" class="creator-input" placeholder="e.g. web-sql">
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label><span style="color: var(--accent-cyan)">👤 Creator Name</span></label>
+                    <input type="text" id="creator" class="creator-input" placeholder="@AuthorName" value="Dock & Root"
+                        oninput="updatePreview()">
+                </div>
+                <div class="form-group">
+                    <label><span style="color: var(--accent-blue)">📅 Release Date</span></label>
+                    <input type="date" id="releaseDate" class="creator-input" onchange="updatePreview()">
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="category" class="creator-input" onchange="updatePreview()">
+                        <option value="Web">Web</option>
+                        <option value="Linux">Linux</option>
+                        <option value="Crypto">Crypto</option>
+                        <option value="Pwn">Pwn</option>
+                        <option value="Reverse Engineering">Rev Engineering</option>
+                        <option value="Networking">Networking</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Difficulty</label>
+                    <select id="difficulty" class="creator-input" onchange="updatePreview()">
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                        <option value="Insane">Insane</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Premium Spec sliders -->
+            <div class="form-grid-2 form-sliders">
+                <div class="form-group">
+                    <label>Points: <span id="ptsVal">100</span></label>
+                    <input type="range" id="points" min="10" max="500" step="10" value="100" class="creator-slider"
+                        oninput="document.getElementById('ptsVal').textContent=this.value; updatePreview();">
+                </div>
+                <div class="form-group">
+                    <label>Est. Time: <span id="timeVal">30</span>m</label>
+                    <input type="range" id="estimatedTime" min="10" max="240" step="5" value="30" class="creator-slider"
+                        oninput="document.getElementById('timeVal').textContent=this.value; updatePreview();">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Short Description (Card format)</label>
+                <textarea id="description" class="creator-input" rows="2" maxlength="120"
+                    oninput="updatePreview()"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Avatar / Icon Image</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="avatar" class="creator-input" style="flex: 1;" value="img/placeholder.png"
+                        oninput="updatePreview()">
+                    <label for="avatarFile" class="btn-fetch"
+                        style="cursor: pointer; padding: 12px 14px; margin: 0; line-height: 1;">Upload</label>
+                    <input type="file" id="avatarFile" accept="image/png, image/jpeg, image/webp" style="display: none;"
+                        onchange="handleImageUpload(event)">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Skills / Tags (Comma separated)</label>
+                <input type="text" id="skills" class="creator-input" placeholder="Docker, Bash, Exploit">
+            </div>
+
+            <div class="form-group">
+                <label>Prerequisites (Comma separated)</label>
+                <input type="text" id="prerequisites" class="creator-input" placeholder="Linux basics, CLI familiarity">
+            </div>
+
+            <div class="form-group">
+                <label>Objectives (Comma separated)</label>
+                <input type="text" id="objectives" class="creator-input" placeholder="Identify SUID, Gain root shell">
+            </div>
+
+            <div class="form-group lock-panel">
+                <label>🔐 Cleartext Flag</label>
+                <input type="text" id="cleartextFlag" class="creator-input" style="border-color: var(--accent-amber);"
+                    placeholder="flag{...}" oninput="generateHash()">
+                <span id="hashPreview"
+                    style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-amber); word-break: break-all; margin-top: 4px;">SHA256:
+                    awaiting input...</span>
+            </div>
+
+            <div style="margin-top: auto; padding-top: 24px;">
+                <button class="btn btn-primary"
+                    style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 16px;" id="btnPublish">🚀
+                    Publish Machine to File</button>
+            </div>
+        </div>
+
+        <!-- Right Side: Live Card Preview -->
+        <div class="creator-main">
+            <div class="preview-container">
+                <div class="preview-label">Live Visual Preview</div>
+
+                <div class="lab-card" id="previewCard" data-tilt data-tilt-max="5" data-tilt-speed="400"
+                    data-tilt-glare="true" data-tilt-max-glare="0.1">
+                    <div class="lab-card-art">
+                        <span class="badge badge-easy lab-card-diff-badge" id="previewDiff">Easy</span>
+                        <div class="lab-card-art-circle ring-easy" id="previewRing"><img src="img/placeholder.png"
+                                id="previewImg"></div>
+                    </div>
+                    <div class="lab-card-body">
+                        <div class="lab-card-tags">
+                            <span class="tag tag-web" id="previewCat">Web</span>
+                        </div>
+                        <div class="lab-card-title" id="previewTitle">Machine Title</div>
+
+                        <!-- Premium Details -->
+                        <div
+                            style="font-size: 0.7rem; color: var(--text-muted); display:flex; justify-content: space-between; font-weight: 600; text-transform: uppercase;">
+                            <span id="previewCreator">By Dock & Root</span>
+                            <span id="previewDate">2026-03-24</span>
+                        </div>
+
+                        <p class="lab-card-desc" id="previewDesc">Description preview...</p>
+                        <div class="lab-card-footer">
+                            <span id="previewTime">⏱ 30 min</span>
+                            <span style="color:var(--accent-green);font-weight:700" id="previewPts">100 pts</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Machine published!</div>
+
+    <script>
+        // Image Upload Engine
+        let base64Image = null;
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (evt) {
+                base64Image = evt.target.result;
+                document.getElementById('previewImg').src = base64Image;
+
+                const mSlug = document.getElementById('slug').value || 'new-machine';
+                document.getElementById('avatar').value = `img/avatar-${mSlug}.png`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Initialize date picker to today
+        document.getElementById('releaseDate').valueAsDate = new Date();
+
+        // Flag Hashing Engine
+        let currentHash = '';
+        async function generateHash() {
+            const flag = document.getElementById('cleartextFlag').value;
+            if (!flag) {
+                document.getElementById('hashPreview').textContent = 'SHA256: awaiting input...';
+                currentHash = '';
+                return;
+            }
+            const encoder = new TextEncoder();
+            const data = encoder.encode(flag);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            currentHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            document.getElementById('hashPreview').textContent = `SHA256: ${currentHash}`;
+        }
+
+        // GitHub Sync Engine
+        document.getElementById('btnGitSync').addEventListener('click', async () => {
+            const urlOptions = document.getElementById('repoUrl').value.trim();
+            if (!urlOptions) return alert('Enter a GitHub URL first');
+
+            const btn = document.getElementById('btnGitSync');
+            btn.textContent = '⏳ Syncing...';
+
+            try {
+                const match = urlOptions.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+                if (!match) throw new Error('Invalid GitHub URL');
+                const owner = match[1];
+                const repo = match[2];
+
+                const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
+                const data = await res.json();
+
+                if (res.ok) {
+                    document.getElementById('title').value = formatTitle(data.name);
+                    document.getElementById('slug').value = data.name;
+                    document.getElementById('description').value = data.description || '';
+                    if (data.topics) {
+                        document.getElementById('skills').value = data.topics.join(', ');
+                    }
+                    updatePreview();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (e) {
+                alert('GitHub Sync failed: ' + e.message);
+            }
+            btn.textContent = '⬇️ Auto-Fill from GitHub';
+        });
+
+        function formatTitle(slug) {
+            return slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+
+        // Preview Engine
+        function updatePreview() {
+            const title = document.getElementById('title').value || 'Machine Title';
+            const desc = document.getElementById('description').value || 'Description preview...';
+            const diff = document.getElementById('difficulty').value;
+            const cat = document.getElementById('category').value;
+            const ava = document.getElementById('avatar').value || 'img/placeholder.png';
+            const creator = document.getElementById('creator').value || 'Dock & Root';
+            const relDate = document.getElementById('releaseDate').value;
+            const pts = document.getElementById('points').value;
+            const time = document.getElementById('estimatedTime').value;
+
+            document.getElementById('previewTitle').textContent = title;
+            document.getElementById('previewDesc').textContent = desc;
+            document.getElementById('previewCreator').textContent = 'By ' + creator;
+            document.getElementById('previewDate').textContent = relDate;
+            document.getElementById('previewPts').textContent = pts + ' pts';
+            document.getElementById('previewTime').textContent = '⏱ ' + time + ' min';
+
+            const diffEl = document.getElementById('previewDiff');
+            diffEl.textContent = diff;
+            diffEl.className = `badge badge-${diff.toLowerCase()} lab-card-diff-badge`;
+
+            const ring = document.getElementById('previewRing');
+            ring.className = `lab-card-art-circle ring-${diff.toLowerCase()}`;
+
+            document.getElementById('previewImg').src = ava;
+
+            const catEl = document.getElementById('previewCat');
+            catEl.textContent = cat;
+            const catClassMap = {
+                'Web': 'web', 'Linux': 'linux', 'Crypto': 'crypto',
+                'Pwn': 'pwn', 'Reverse Engineering': 're', 'Networking': 'network'
+            };
+            catEl.className = `tag tag-${catClassMap[cat] || 'web'}`;
+        }
+
+        const pCard = document.getElementById('previewCard');
+        pCard.addEventListener('mousemove', e => {
+            const rect = pCard.getBoundingClientRect(),
+                x = e.clientX - rect.left,
+                y = e.clientY - rect.top;
+            pCard.style.setProperty('--mouse-x', `${x}px`);
+            pCard.style.setProperty('--mouse-y', `${y}px`);
+        });
+
+        document.getElementById('btnPublish').addEventListener('click', async () => {
+            const slug = document.getElementById('slug').value;
+            const repoUrl = document.getElementById('repoUrl').value;
+
+            if (!slug || !document.getElementById('title').value) {
+                return alert('Title and Slug are required!');
+            }
+
+            const repoName = slug;
+            const dockerCommands = [
+                `git clone ${repoUrl || `https://github.com/dock-and-root-labs/${repoName}`}`,
+                `cd ${repoName}`,
+                `docker compose up -d`,
+                `# Target running mapping locally`
+            ];
+
+            const payload = {
+                slug: slug,
+                title: document.getElementById('title').value,
+                avatar: document.getElementById('avatar').value,
+                difficulty: document.getElementById('difficulty').value,
+                category: document.getElementById('category').value,
+                description: document.getElementById('description').value,
+                longDescription: document.getElementById('description').value,
+                creator: document.getElementById('creator').value,
+                releaseDate: document.getElementById('releaseDate').value,
+                estimatedTime: document.getElementById('estimatedTime').value + ' min',
+                points: parseInt(document.getElementById('points').value),
+                skills: document.getElementById('skills').value.split(',').map(s => s.trim()).filter(Boolean),
+                prerequisites: document.getElementById('prerequisites').value.split(',').map(s => s.trim()).filter(Boolean),
+                objectives: document.getElementById('objectives').value.split(',').map(s => s.trim()).filter(Boolean),
+                githubUrl: repoUrl,
+                dockerCommands: dockerCommands,
+                flagHash: currentHash,
+                base64Image: base64Image
+            };
+
+            try {
+                const res = await fetch('http://localhost:3000/api/publish', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    const toast = document.getElementById('toast');
+                    toast.textContent = `✅ ${data.message} (Added ID: ${data.id})`;
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 4000);
+
+                    // Auto-Clear Form
+                    document.getElementById('repoUrl').value = '';
+                    document.getElementById('title').value = '';
+                    document.getElementById('slug').value = '';
+                    document.getElementById('description').value = '';
+                    document.getElementById('skills').value = '';
+                    document.getElementById('prerequisites').value = '';
+                    document.getElementById('objectives').value = '';
+                    document.getElementById('cleartextFlag').value = '';
+                    document.getElementById('avatar').value = 'img/placeholder.png';
+                    document.getElementById('hashPreview').textContent = 'SHA256: awaiting input...';
+                    base64Image = null;
+                    currentHash = '';
+                    updatePreview();
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (e) {
+                alert('Failed to connect to Studio API. ' + e.message);
+            }
+        });
+
+        // Run once on load to populate defaults
+        updatePreview();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dock &amp; Root Labs — Docker-Based Cybersecurity Machines</title>
+  <meta name="description"
+    content="Free Docker-based cybersecurity machines. Clone a repo, run the container, own the box, capture the flag. No accounts, no subscriptions.">
+  <meta property="og:title" content="Dock & Root Labs">
+  <meta property="og:description" content="Docker-based cybersecurity machines you run locally. Clone, hack, own.">
+  <meta property="og:type" content="website">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── HERO SPLIT ─────────────────────── */
+    .hero-split {
+      position: relative;
+      height: calc(100vh - 56px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Scanline */
+    .hero-split::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px,
+          rgba(255, 255, 255, 0.011) 2px, rgba(255, 255, 255, 0.011) 4px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top-left corner bracket */
+    .hero-split::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 200px;
+      background:
+        linear-gradient(var(--accent-green), var(--accent-green)) top left / 2px 36px no-repeat,
+        linear-gradient(var(--accent-green), var(--accent-green)) top left / 36px 2px no-repeat;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* Green orb top-right */
+    .hero-orb {
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 660px;
+      height: 660px;
+      background: radial-gradient(circle, rgba(34, 255, 85, 0.055) 0%, transparent 62%);
+      pointer-events: none;
+    }
+
+    /* Blue orb bottom-left */
+    .hero-orb-b {
+      position: absolute;
+      bottom: -60px;
+      left: 30%;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.045) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-col-l {
+      position: relative;
+      z-index: 1;
+      padding: 0 48px 0 0;
+      padding-left: max(28px, calc((100vw - 1200px) / 2 + 28px));
+    }
+
+    .hero-col-r {
+      position: relative;
+      z-index: 1;
+      padding: 0 0 0 32px;
+      padding-right: max(28px, calc((100vw - 1200px) / 2 + 28px));
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    /* Eyebrow pill */
+    .eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--accent-green);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px 5px 8px;
+      border: 1px solid rgba(34, 255, 85, 0.2);
+      border-radius: var(--radius-full);
+      background: rgba(34, 255, 85, 0.04);
+      margin-bottom: 24px;
+    }
+
+    .eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .hero-h1 {
+      font-size: clamp(2.6rem, 3.8vw, 4.8rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.045em;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .hero-h1 .hl {
+      color: var(--accent-green);
+    }
+
+    .hero-sub {
+      font-size: 0.97rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      max-width: 420px;
+      margin: 0 0 32px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 44px;
+    }
+
+    /* Stats compact row */
+    .hero-stats-row {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .hstat {
+      padding: 12px 22px;
+      border-right: 1px solid var(--border-subtle);
+      text-align: center;
+    }
+
+    .hstat:last-child {
+      border-right: none;
+    }
+
+    .hstat-n {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .hstat-l {
+      display: block;
+      font-size: 0.63rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 3px;
+    }
+
+    /* ── HERO TERMINAL ──────────────────── */
+    .hterminal {
+      width: 100%;
+      max-width: 520px;
+      background: #040407;
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-lg);
+      box-shadow:
+        0 0 0 1px rgba(34, 255, 85, 0.07),
+        0 28px 72px rgba(0, 0, 0, 0.85),
+        0 0 50px rgba(34, 255, 85, 0.04);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Green top-edge glow */
+    .hterminal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(34, 255, 85, 0.45), transparent);
+    }
+
+    .hterminal-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.018);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .tdot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .tdot.r {
+      background: #ff5f57;
+    }
+
+    .tdot.a {
+      background: #febc2e;
+    }
+
+    .tdot.g {
+      background: #28c840;
+    }
+
+    .hterminal-label {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      color: var(--text-muted);
+      margin-left: 6px;
+    }
+
+    .hterminal-body {
+      padding: 18px 20px 20px 22px;
+      min-height: 260px;
+      font-family: var(--font-mono);
+      font-size: 0.79rem;
+      line-height: 1.85;
+    }
+
+    /* ── TICKER ─────────────────────────── */
+    .ticker {
+      position: relative;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(34, 255, 85, 0.012);
+      padding: 10px 0;
+      overflow: hidden;
+    }
+
+    .ticker::before,
+    .ticker::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 72px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .ticker::before {
+      left: 0;
+      background: linear-gradient(90deg, var(--bg-primary), transparent);
+    }
+
+    .ticker::after {
+      right: 0;
+      background: linear-gradient(-90deg, var(--bg-primary), transparent);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: scrollTicker 26s linear infinite;
+    }
+
+    @keyframes scrollTicker {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .tick-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 28px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .tick-badge {
+      font-size: 0.63rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      border: 1px solid;
+    }
+
+    .tick-badge.easy {
+      color: var(--diff-easy);
+      border-color: rgba(34, 255, 85, 0.3);
+      background: rgba(34, 255, 85, 0.06);
+    }
+
+    .tick-badge.medium {
+      color: var(--diff-medium);
+      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.06);
+    }
+
+    .tick-badge.hard {
+      color: var(--diff-hard);
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.06);
+    }
+
+    .tick-sep {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--border-dim);
+    }
+
+    /* ── MACHINES COMPACT STRIP ─────────── */
+    .machines-strip {
+      padding: 32px 0 48px;
+    }
+
+    .machines-strip-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .machines-strip-title {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .machines-strip-title::before {
+      content: '// ';
+      color: var(--border-dim);
+    }
+
+    /* ── RESPONSIVE ─────────────────────── */
+    @media (max-width: 860px) {
+      .hero-split {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding: 60px 0 40px;
+      }
+
+      .hero-col-r {
+        display: none;
+      }
+
+      /* hide terminal on mobile, show only headline */
+      .hero-col-l {
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header id="navbar"></header>
+
+  <!-- ── HERO ──────────────────────────────── -->
+  <section class="hero-split">
+    <div class="hero-orb"></div>
+    <div class="hero-orb-b"></div>
+
+    <!-- Headline -->
+    <div class="hero-col-l">
+      <div class="eyebrow-pill">
+        <span class="eyebrow-dot"></span>
+        Free &nbsp;·&nbsp; Open Source &nbsp;·&nbsp; Docker-Native
+      </div>
+
+      <h1 class="hero-h1">
+        Clone it.<br>
+        <span class="hl">Hack it.</span><br>
+        <span style="color:var(--text-secondary);font-weight:400;font-size:0.68em;letter-spacing:-0.02em">Keep the
+          flag.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Fully containerized target machines you exploit on your own hardware.
+        No cloud. No accounts. Just Docker and skill.
+      </p>
+
+      <div class="hero-btns">
+        <a href="machines.html" class="btn btn-primary btn-lg">Browse Machines →</a>
+        <a href="about.html" class="btn btn-secondary btn-lg">Learn More</a>
+      </div>
+
+      <div class="hero-stats-row">
+        <div class="hstat">
+          <span class="hstat-n" data-count-to="10" data-suffix="+">10+</span>
+          <span class="hstat-l">Machines</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-n">6</span>
+          <span class="hstat-l">Categories</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-n">100%</span>
+          <span class="hstat-l">Free</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-n">Local</span>
+          <span class="hstat-l">No Cloud</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="hero-col-r">
+      <div class="hterminal">
+        <div class="hterminal-header">
+          <span class="tdot r"></span>
+          <span class="tdot a"></span>
+          <span class="tdot g"></span>
+          <span class="hterminal-label">kali@attacker ~ $</span>
+        </div>
+        <div class="hterminal-body" id="htbody"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TICKER ─────────────────────────────── -->
+  <div class="ticker">
+    <div class="ticker-track" id="ticker-track"></div>
+  </div>
+
+  <!-- ── FEATURED MACHINES ─────────────────── -->
+  <div class="machines-strip">
+    <div class="container">
+      <div class="machines-strip-header">
+        <span class="machines-strip-title">Featured Machines</span>
+        <a href="machines.html" class="btn btn-secondary btn-sm">All Machines →</a>
+      </div>
+      <div class="labs-grid" id="featured-grid"></div>
+    </div>
+  </div>
+
+  <footer id="footer"></footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/labs.js"></script>
+  <script>
+    renderNavbar('home');
+    renderFooter();
+
+    loadLabs().then(() => {
+      // ── Featured machines — pinned to 3 diverse, representative labs ──
+      const FEATURED_SLUGS = ['web-sql-injection', 'linux-privilege-escalation', 'crypto-fundamentals'];
+      const featured = FEATURED_SLUGS.map(s => LABS.find(l => l.slug === s)).filter(Boolean);
+      document.getElementById('featured-grid').innerHTML = featured.map(lab => {
+        const diffClass = getDifficultyClass(lab.difficulty);
+        return `
+        <a href="machine.html?slug=${lab.slug}" class="lab-card">
+          <div class="lab-card-art">
+            <span class="badge badge-${diffClass} lab-card-diff-badge">${lab.difficulty}</span>
+            <div class="lab-card-art-circle ring-${diffClass}"><img src="${lab.avatar}" alt="${lab.title}"></div>
+          </div>
+          <div class="lab-card-body">
+            <div class="lab-card-tags"><span class="tag tag-${getCategoryClass(lab.category)}">${lab.category}</span></div>
+            <div class="lab-card-title">${lab.title}</div>
+            <p class="lab-card-desc">${lab.description}</p>
+            <div class="lab-card-footer">
+              <span>⏱ ${lab.estimatedTime}</span>
+              ${isSolved(lab.slug)
+            ? '<span style="color:var(--accent-green);font-weight:700">✅ Solved</span>'
+            : `<span style="color:var(--accent-green);font-weight:700">${lab.points} pts</span>`}
+            </div>
+          </div>
+        </a>`;
+      }).join('');
+
+      // Spotlight effect on cards
+      document.querySelectorAll('.lab-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${e.clientX - r.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - r.top}px`);
+        });
+      });
+
+      // ── Ticker ────────────────────────────────────────────
+      const items = LABS.filter(l => l.flagHash).map(l => ({
+        name: l.title, diff: l.difficulty.toLowerCase(), cat: l.category
+      }));
+      function tickHTML(arr) {
+        return arr.map(i => `
+        <div class="tick-item">
+          <span class="tick-badge ${i.diff}">${i.diff[0].toUpperCase() + i.diff.slice(1)}</span>
+          ${i.name}
+          <span style="font-size:0.63rem;color:var(--text-muted)">${i.cat}</span>
+          <span class="tick-sep"></span>
+        </div>`).join('');
+      }
+      const track = document.getElementById('ticker-track');
+      track.innerHTML = tickHTML(items) + tickHTML(items); // double for seamless
+
+      // ── Typewriter terminal ───────────────────────────────
+      (function () {
+        const T = document.getElementById('htbody');
+        if (!T) return;
+
+        const G = 'var(--accent-green)';
+        const M = 'var(--text-muted)';
+        const S = 'var(--text-secondary)';
+        const KPFX = `<span style="color:${M}">└─$ </span>`;
+
+        const seq = [
+          { t: 'cmd', v: 'git clone https://github.com/dock-and-root-labs/web-sql-injection' },
+          { t: 'out', v: "Cloning into 'web-sql-injection'... done.", c: M },
+          { t: 'br' },
+          { t: 'cmd', v: 'cd web-sql-injection && docker compose up -d' },
+          { t: 'out', v: '✔  Container db       Started', c: '#22c55e' },
+          { t: 'out', v: '✔  Container web-app  Started', c: '#22c55e' },
+          { t: 'br' },
+          { t: 'cmd', v: "sqlmap -u 'http://localhost/login.php' --forms --dbs" },
+          { t: 'out', v: '[*] starting detection…', c: '#f59e0b' },
+          { t: 'out', v: '[+] injectable param: username', c: '#f59e0b' },
+          { t: 'out', v: 'flag: DRL{SQL_1nj3ction_m4st3r}', c: G },
+          { t: 'br' },
+          { t: 'cur' },
+        ];
+
+        function clear() { T.innerHTML = ''; }
+
+        function addLine(html) {
+          const d = document.createElement('div');
+          d.innerHTML = html;
+          T.appendChild(d);
+          return d;
+        }
+
+        function type(el, text, speed, cb) {
+          let i = 0;
+          const s = el.querySelector('.tt');
+          (function tick() {
+            s.textContent = text.slice(0, i++);
+            if (i <= text.length) setTimeout(tick, speed);
+            else cb && cb();
+          })();
+        }
+
+        function run(i) {
+          if (i >= seq.length) { setTimeout(() => { clear(); run(0); }, 4000); return; }
+          const s = seq[i];
+          const next = () => setTimeout(() => run(i + 1), 80);
+
+          if (s.t === 'br') { addLine('<br>'); next(); }
+          else if (s.t === 'cur') {
+            addLine(`<div>${KPFX}<span class="terminal-cursor"></span></div>`);
+            setTimeout(() => { clear(); run(0); }, 4000);
+          }
+          else if (s.t === 'out') {
+            setTimeout(() => { addLine(`<div style="color:${s.c}">${s.v}</div>`); next(); }, 100);
+          }
+          else if (s.t === 'cmd') {
+            const el = addLine(`<div>${KPFX}<span class="tt" style="color:${S}"></span></div>`);
+            type(el, s.v, Math.max(16, Math.floor(700 / s.v.length)), () => setTimeout(next, 260));
+          }
+        }
+
+        setTimeout(() => run(0), 600);
+      })();
+
+      // ── Count-up on in-view ───────────────────────────────
+      new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          const to = parseInt(el.dataset.countTo);
+          const suf = el.dataset.suffix || '';
+          let n = 0;
+          const step = to / 36;
+          const t = setInterval(() => {
+            n = Math.min(n + step, to);
+            el.textContent = Math.floor(n) + suf;
+            if (n >= to) clearInterval(t);
+          }, 40);
+          obs.unobserve(el);
+        });
+      }, { threshold: 0.5 }).observe(document.querySelector('[data-count-to]'));
+    }); // end loadLabs().then
+  </script>
+
+  <!-- ── READY CTA ──────────────────────────── -->
+  <div style="padding:0 0 56px">
+    <div class="container">
+      <div style="
+        border:1px solid rgba(34,255,85,0.15);
+        border-radius:var(--radius-xl);
+        background:linear-gradient(135deg,rgba(34,255,85,0.04) 0%,transparent 60%);
+        padding:52px 48px;
+        text-align:center;
+        position:relative;
+        overflow:hidden;
+      ">
+        <!-- Corner orbs -->
+        <div
+          style="position:absolute;top:-80px;right:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(34,255,85,0.07) 0%,transparent 65%);pointer-events:none">
+        </div>
+        <div
+          style="position:absolute;bottom:-80px;left:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(59,130,246,0.05) 0%,transparent 65%);pointer-events:none">
+        </div>
+
+        <div class="section-label" style="justify-content:center;margin-bottom:14px">Ready?</div>
+        <h2
+          style="font-size:clamp(1.7rem,3vw,2.6rem);font-weight:900;letter-spacing:-0.04em;color:var(--text-primary);margin-bottom:12px">
+          Your first machine is<br><span style="color:var(--accent-green)">one command away.</span>
+        </h2>
+        <p style="color:var(--text-secondary);max-width:380px;margin:0 auto 32px;font-size:0.92rem;line-height:1.7">
+          No sign-up. No credit card. Just Docker and curiosity.
+        </p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href="machines.html" class="btn btn-primary btn-lg">Browse Machines →</a>
+          <a href="about.html" class="btn btn-secondary btn-lg">About the Project</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

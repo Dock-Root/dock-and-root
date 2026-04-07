@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works — Dock &amp; Root Labs</title>
+    <meta name="description"
+        content="Learn how Dock and Root Labs works — pick a machine, clone, deploy with Docker, exploit, and capture the flag.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ── STEP FLOW ─────────────────────────────── */
+        .step-flow {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+            margin-bottom: 64px;
+        }
+
+        /* Connector line between step circles */
+        .step-flow::before {
+            content: '';
+            position: absolute;
+            top: 43px;
+            left: calc(12.5% + 18px);
+            right: calc(12.5% + 18px);
+            height: 1px;
+            background: linear-gradient(90deg,
+                    rgba(34, 255, 85, 0.5),
+                    rgba(34, 255, 85, 0.15),
+                    rgba(34, 255, 85, 0.15),
+                    rgba(34, 255, 85, 0.5));
+            z-index: 0;
+        }
+
+        .sf-step {
+            padding: 0 16px 28px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .sf-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid rgba(34, 255, 85, 0.25);
+            background: var(--bg-primary);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 22px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sf-step:first-child .sf-circle {
+            background: rgba(34, 255, 85, 0.08);
+            border-color: rgba(34, 255, 85, 0.5);
+            box-shadow: 0 0 20px rgba(34, 255, 85, 0.2);
+        }
+
+        .sf-icon {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+
+        .sf-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .sf-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        /* ── FEATURE BENTO ─────────────────────────── */
+        .bento {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .bento-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+
+        .bento-stack {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .tile {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 26px;
+            transition: border-color 0.2s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(34, 255, 85, 0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .tile:hover {
+            border-color: rgba(34, 255, 85, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .tile:hover::before {
+            opacity: 1;
+        }
+
+        .tile-icon {
+            font-size: 1.6rem;
+            margin-bottom: 14px;
+        }
+
+        .tile-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .tile-desc {
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        .mini-term {
+            margin-top: 18px;
+            background: #030306;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--accent-green);
+            line-height: 1.85;
+        }
+
+        .mini-term .p {
+            color: var(--text-muted);
+        }
+
+        /* ── CTA CARD ─────────────────────────────── */
+        .cta-card {
+            border: 1px solid rgba(34, 255, 85, 0.15);
+            border-radius: var(--radius-xl);
+            background: linear-gradient(135deg, rgba(34, 255, 85, 0.04) 0%, transparent 60%);
+            padding: 56px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card::before,
+        .cta-card::after {
+            content: '';
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .cta-card::before {
+            top: -80px;
+            right: -80px;
+            background: radial-gradient(circle, rgba(34, 255, 85, 0.07) 0%, transparent 65%);
+        }
+
+        .cta-card::after {
+            bottom: -80px;
+            left: -80px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 65%);
+        }
+
+        @media (max-width: 860px) {
+            .step-flow {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .step-flow::before {
+                display: none;
+            }
+
+            .bento,
+            .bento-2col {
+                grid-template-columns: 1fr;
+            }
+
+            .bento-stack {
+                grid-template-rows: unset;
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .step-flow {
+                grid-template-columns: 1fr;
+            }
+
+            .bento-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="navbar"></header>
+
+    <main class="page-content">
+        <div class="container">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="section-label">Getting Started</div>
+                <h1>How It Works</h1>
+                <p>Everything you need to know to go from zero to owned — in four steps.</p>
+            </div>
+
+            <!-- ── 4-STEP FLOW ─────────────────────── -->
+            <div class="step-flow">
+                <div class="sf-step">
+                    <div class="sf-circle">01</div>
+                    <div class="sf-icon">🖥️</div>
+                    <div class="sf-title">Pick a machine</div>
+                    <p class="sf-desc">Browse the catalog by difficulty or category — Web, Linux, Crypto, Pwn, RE,
+                        Networking.</p>
+                </div>
+                <div class="sf-step">
+                    <div class="sf-circle">02</div>
+                    <div class="sf-icon">📦</div>
+                    <div class="sf-title">Clone &amp; deploy</div>
+                    <p class="sf-desc">One chained command: <code
+                            style="color:var(--accent-green);font-family:var(--font-mono);font-size:0.85em">git clone … && docker compose up -d</code>.
+                        Machine live in seconds.</p>
+                </div>
+                <div class="sf-step">
+                    <div class="sf-circle">03</div>
+                    <div class="sf-icon">🎯</div>
+                    <div class="sf-title">Enumerate &amp; exploit</div>
+                    <p class="sf-desc">Scan the target, identify the attack surface, chain vulns, escalate privileges.
+                        Own the box.</p>
+                </div>
+                <div class="sf-step">
+                    <div class="sf-circle">04</div>
+                    <div class="sf-icon">🚩</div>
+                    <div class="sf-title">Capture the flag</div>
+                    <p class="sf-desc">Submit the flag on the machine page to verify. Write a walkthrough to help the
+                        community.</p>
+                </div>
+            </div>
+
+            <!-- ── PREREQUISITES CARD ──────────────── -->
+            <div style="margin-bottom:64px">
+                <div class="section-label">Requirements</div>
+                <h2 style="font-size:1.5rem;margin-bottom:28px">What you need</h2>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+                    <div class="tile">
+                        <div class="tile-icon">🐳</div>
+                        <div class="tile-title">Docker</div>
+                        <p class="tile-desc">Docker Engine 20.10+ with Docker Compose plugin. Runs on any modern Linux
+                            distro.</p>
+                        <a href="https://docs.docker.com/engine/install/" target="_blank"
+                            style="display:inline-block;margin-top:14px;font-size:0.78rem;color:var(--accent-green);font-family:var(--font-mono)">Install
+                            Docker →</a>
+                    </div>
+                    <div class="tile">
+                        <div class="tile-icon">🔧</div>
+                        <div class="tile-title">Git</div>
+                        <p class="tile-desc">Git to clone the machine repositories. Available on every major OS out of
+                            the box.</p>
+                        <div class="mini-term" style="margin-top:14px">
+                            <span class="p">$ </span>apt install git
+                        </div>
+                    </div>
+                    <div class="tile">
+                        <div class="tile-icon">🧰</div>
+                        <div class="tile-title">Your hacking toolkit</div>
+                        <p class="tile-desc">nmap, Burp Suite, netcat, sqlmap, gobuster — whatever you already use. No
+                            extras required.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── PLATFORM FEATURES ───────────────── -->
+            <div style="margin-bottom:64px">
+                <div class="section-label">Platform</div>
+                <h2 style="font-size:1.5rem;margin-bottom:28px">Built different</h2>
+
+                <div class="bento">
+                    <!-- Wide: Container-first with mini terminal -->
+                    <div class="tile">
+                        <div class="tile-icon">🐳</div>
+                        <div class="tile-title">Container-first, always</div>
+                        <p class="tile-desc">Every machine runs in Docker. No VM bloat, no hypervisor configs. Isolated
+                            environments that start and stop in under 10 seconds.</p>
+                        <div class="mini-term">
+                            <div><span class="p">$ </span>docker compose up -d</div>
+                            <div style="color:#22c55e">✔&nbsp; Container
+                                db&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Started&nbsp;&nbsp;&nbsp;0.4s</div>
+                            <div style="color:#22c55e">✔&nbsp; Container
+                                web-app&nbsp;&nbsp;Started&nbsp;&nbsp;&nbsp;0.6s</div>
+                            <div><span class="p">$ </span><span style="color:var(--text-secondary)">nmap -sV
+                                    127.0.0.1</span></div>
+                            <div style="color:var(--accent-green)">80/tcp open http Apache 2.4.54</div>
+                        </div>
+                    </div>
+                    <!-- Narrow stack -->
+                    <div class="bento-stack">
+                        <div class="tile">
+                            <div class="tile-icon">🔓</div>
+                            <div class="tile-title">Always free</div>
+                            <p class="tile-desc">Open source under MIT. No paywalls, no premium tiers. Ever.</p>
+                        </div>
+                        <div class="tile">
+                            <div class="tile-icon">📡</div>
+                            <div class="tile-title">Air-gap capable</div>
+                            <p class="tile-desc">Pull images once, hack offline forever. No telemetry, no cloud
+                                dependency.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-2col">
+                    <div class="tile">
+                        <div class="tile-icon">🤝</div>
+                        <div class="tile-title">Community-made</div>
+                        <p class="tile-desc">Machines contributed by the security community. Anyone can submit a
+                            challenge or write a walkthrough.</p>
+                    </div>
+                    <div class="tile">
+                        <div class="tile-icon">⚡</div>
+                        <div class="tile-title">Real CVEs &amp; techniques</div>
+                        <p class="tile-desc">Labs are modelled on real-world vulnerabilities and attack chains — not toy
+                            examples.</p>
+                    </div>
+                    <div class="tile">
+                        <div class="tile-icon">⚓</div>
+                        <div class="tile-title">Open source</div>
+                        <p class="tile-desc">The whole platform — machines, website, tooling — is on GitHub. Fork it,
+                            improve it, contribute back.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── CTA ────────────────────────────── -->
+            <div class="cta-card">
+                <div class="section-label" style="justify-content:center;margin-bottom:14px">Ready?</div>
+                <h2
+                    style="font-size:clamp(1.7rem,3vw,2.6rem);font-weight:900;letter-spacing:-0.04em;margin-bottom:14px">
+                    Your first machine is<br><span style="color:var(--accent-green)">one command away.</span>
+                </h2>
+                <p style="color:var(--text-secondary);max-width:400px;margin:0 auto 32px;font-size:0.95rem">
+                    No sign-up. No credit card. Just Docker and curiosity.
+                </p>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                    <a href="machines.html" class="btn btn-primary btn-lg">Browse Machines →</a>
+                    <a href="about.html" class="btn btn-secondary btn-lg">About the Project</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        renderNavbar('how-it-works');
+        renderFooter();
+    </script>
+</body>
+
+</html>

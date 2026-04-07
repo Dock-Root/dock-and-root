@@ -1,0 +1,139 @@
+/* ===================================================
+   DOCK AND ROOT — Creator Studio Styles
+=================================================== */
+
+.creator-layout {
+    display: flex;
+    min-height: 100vh;
+    background: var(--bg-primary);
+}
+
+.creator-sidebar {
+    width: 450px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-subtle);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.creator-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: radial-gradient(circle at center, rgba(34, 255, 85, 0.03) 0%, transparent 60%);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.creator-input {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.creator-input:focus {
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 3px rgba(34, 255, 85, 0.1);
+}
+
+textarea.creator-input {
+    resize: vertical;
+    min-height: 80px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.creator-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.btn-fetch {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-fetch:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.preview-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.preview-label {
+    text-align: center;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.creator-slider {
+    width: 100%;
+    margin-top: 8px;
+    cursor: pointer;
+    accent-color: var(--accent-green);
+}
+
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--accent-green);
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 9999;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}

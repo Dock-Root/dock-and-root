@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writeups — Dock & Root Labs</title>
+    <meta name="description" content="CTF writeups, lab walkthroughs, and exploitation guides from Dock and Root Labs.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header id="navbar"></header>
+
+    <main class="page-content">
+        <div class="container">
+
+            <div class="page-header">
+                <div class="section-label">Writeups</div>
+                <h1>Lab Writeups &amp; Walkthroughs</h1>
+                <p>Community-written solutions and step-by-step walkthroughs for completed labs.</p>
+            </div>
+
+            <!-- Notice -->
+            <div
+                style="background:rgba(57,211,83,0.05);border:1px solid rgba(57,211,83,0.2);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:32px;display:flex;align-items:flex-start;gap:12px">
+                <span style="font-size:1.1rem">💡</span>
+                <p style="font-size:0.875rem;color:var(--text-secondary);margin:0">
+                    <strong style="color:var(--accent-green)">Spoiler warning:</strong>
+                    These writeups contain solutions. We recommend attempting the lab first.
+                    Only read a writeup if you're stuck or have already solved the challenge.
+                </p>
+            </div>
+
+            <div class="blog-grid" id="writeups-grid"></div>
+
+            <div id="empty-writeups" class="empty-state hidden">
+                <div class="empty-state-icon">✍️</div>
+                <h3>No writeups yet</h3>
+                <p>Be the first to write a lab walkthrough!</p>
+                <a href="https://github.com/dock-and-root-labs/website" target="_blank" class="btn btn-secondary"
+                    style="margin-top:16px">Submit a Writeup</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer id="footer"></footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/blog.js"></script>
+    <script>
+        renderNavbar('writeups');
+        renderFooter();
+
+        const writeups = BLOG_POSTS.filter(p => p.category === 'Writeups');
+        const grid = document.getElementById('writeups-grid');
+        const empty = document.getElementById('empty-writeups');
+
+        if (!writeups.length) {
+            empty.classList.remove('hidden');
+        } else {
+            grid.innerHTML = writeups.map(post => `
+      <a href="blog/post.html?slug=${post.slug}" class="blog-card">
+        <div class="blog-card-cover">${post.emoji}</div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>${formatDate(post.date)}</span>
+            <span>·</span>
+            <span>${post.readTime} read</span>
+            <span>·</span>
+            <span style="color:var(--accent-green)">by ${post.author}</span>
+          </div>
+          <div class="blog-card-title">${post.title}</div>
+          <p class="blog-card-excerpt">${post.excerpt}</p>
+          <div class="blog-card-tags">
+            ${post.tags.map(t => `<span class="tag">#${t}</span>`).join('')}
+          </div>
+        </div>
+      </a>
+    `).join('');
+        }
+    </script>
+</body>
+
+</html>

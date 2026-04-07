@@ -1,0 +1,374 @@
+[
+    {
+        "id": 11,
+        "slug": "cve-2025-32463-labX",
+        "title": "Cve 2025 32463 LabX",
+        "icon": "📦",
+        "avatar": "img/avatar-cve-2025-32463-labX.png",
+        "difficulty": "Easy",
+        "category": "Linux",
+        "description": "Vulnerable Ubuntu 24.04 container with sudo 1.9.15p5. Non-privileged user (labuser). Exploit CVE-2025-32463 via the sudo-chwoot.sh script.",
+        "longDescription": "Vulnerable Ubuntu 24.04 container with sudo 1.9.15p5\nNon-privileged user (labuser)\nExploit script: sudo-chwoot.sh\nDocker",
+        "creator": "Dock & Root Labs",
+        "releaseDate": "2026-03-24",
+        "estimatedTime": "30 min",
+        "points": 100,
+        "skills": [
+            "CVE Exploitation",
+            "Linux Privilege Escalation",
+            "Sudo Abuse"
+        ],
+        "prerequisites": [],
+        "objectives": [],
+        "githubUrl": "https://github.com/7r00t/cve-2025-32463-lab",
+        "dockerCommands": [
+            "git clone https://github.com/7r00t/cve-2025-32463-lab",
+            "cd cve-2025-32463-labX",
+            "docker compose up -d"
+        ],
+        "flagHash": "d0a8f458b011b21d322c1fb57e2583102f72aba299f16d2fbd87b22f50210d3e"
+    },
+    {
+        "id": 10,
+        "slug": "cve-2025-32463-lab",
+        "title": "Cve 2025 32463 Lab",
+        "icon": "📦",
+        "avatar": "img/placeholder.png",
+        "difficulty": "Easy",
+        "category": "Linux",
+        "description": "Vulnerable Ubuntu 24.04 container with sudo 1.9.15p5. Community lab by 7r00t. Exploit the sudo chroot escape vulnerability.",
+        "longDescription": "Vulnerable Ubuntu 24.04 container with sudo 1.9.15p5\nNon-privileged user (labuser)\nExploit script: sudo-chwoot.sh\nDocker",
+        "creator": "7r00t",
+        "releaseDate": "2026-03-24",
+        "estimatedTime": "90 min",
+        "points": 40,
+        "skills": [
+            "linux",
+            "bash",
+            "kali",
+            "ctf",
+            "cybersecurity"
+        ],
+        "prerequisites": [],
+        "objectives": [],
+        "githubUrl": "https://github.com/7r00t/cve-2025-32463-lab",
+        "dockerCommands": [
+            "git clone https://github.com/7r00t/cve-2025-32463-lab",
+            "cd cve-2025-32463-lab",
+            "docker compose up -d"
+        ],
+        "flagHash": "50f1ef98ad6c08e9388d01924746309fd4c1ec0130937972184fe9274a116141"
+    },
+    {
+        "id": 1,
+        "slug": "web-sql-injection",
+        "title": "Injector",
+        "icon": "💉",
+        "avatar": "img/avatar-sql-injection.png",
+        "difficulty": "Easy",
+        "category": "Web",
+        "description": "A vulnerable PHP login portal with user data stored in MySQL. Bypass authentication and extract the flag from the database.",
+        "longDescription": "A barebones PHP web application that talks directly to MySQL — no ORM, no parameterized queries, no input validation. The login form passes user-supplied input straight into a SELECT query, making it trivially injectable.\n\nYour job: bypass authentication via SQL injection, enumerate the database schema, and extract the flag from a hidden secrets table.\n\n### What you will practice\nClassic in-band SQL injection, UNION-based data extraction, logical OR authentication bypass, and manual database enumeration without SQLMap.",
+        "creator": "Dock & Root Labs",
+        "releaseDate": "2026-01-10",
+        "estimatedTime": "30 min",
+        "points": 100,
+        "skills": [
+            "SQL Injection",
+            "Auth Bypass",
+            "Database Enumeration",
+            "Burp Suite"
+        ],
+        "prerequisites": [
+            "Basic SQL knowledge",
+            "HTTP fundamentals",
+            "CLI familiarity"
+        ],
+        "objectives": [
+            "Identify the vulnerable login parameter",
+            "Bypass authentication using a SQL logic bypass",
+            "Enumerate the database schema using UNION injection",
+            "Extract the flag from the secrets table"
+        ],
+        "githubUrl": "https://github.com/dock-and-root-labs/web-sql-injection",
+        "dockerCommands": [
+            "git clone https://github.com/dock-and-root-labs/web-sql-injection",
+            "cd web-sql-injection",
+            "docker compose up -d"
+        ],
+        "flagHash": "5508696e0638ebbd98b5ff2993543837713a18f6734201f6b1d51ad687dcb0a2"
+    },
+    {
+        "id": 2,
+        "slug": "linux-privilege-escalation",
+        "title": "Escalate",
+        "icon": "🐧",
+        "avatar": "img/avatar-linux-privesc.png",
+        "difficulty": "Medium",
+        "category": "Linux",
+        "description": "Gain an initial foothold as a low-privilege user and escalate to root by chaining common Linux misconfigurations.",
+        "longDescription": "A realistic Debian-based machine where you start with SSH credentials for a low-privilege user. Multiple privilege escalation vectors are planted, including SUID binaries, weak sudo rules, cron job abuse, and world-writable scripts.\n\nYou are expected to enumerate the system, identify exploitable paths, and escalate to root without using Metasploit.\n\n### What you will practice\nManual enumeration techniques (sudo -l, SUID find, cron inspection), PATH hijacking, and writing simple exploit scripts.",
+        "creator": "Dock & Root Labs",
+        "releaseDate": "2026-01-20",
+        "estimatedTime": "60 min",
+        "points": 250,
+        "skills": [
+            "Linux Enumeration",
+            "SUID Abuse",
+            "Sudo Exploitation",
+            "PATH Hijacking"
+        ],
+        "prerequisites": [
+            "Comfortable with bash",
+            "Basic Linux file permissions",
+            "SSH access"
+        ],
+        "objectives": [
+            "Connect to the target via SSH with provided credentials",
+            "Enumerate sudo rules, SUID binaries, and cron jobs",
+            "Identify at least one exploitable privilege escalation vector",
+            "Gain a root shell and read /root/flag.txt"
+        ],
+        "githubUrl": "https://github.com/dock-and-root-labs/linux-privilege-escalation",
+        "dockerCommands": [
+            "git clone https://github.com/dock-and-root-labs/linux-privilege-escalation",
+            "cd linux-privilege-escalation",
+            "docker compose up -d"
+        ],
+        "flagHash": "4aa0a4a71905f84f1f3a1ee32ebfc166481208bf7b94c430aef7a36d2ab550de"
+    },
+    {
+        "id": 3,
+        "slug": "docker-escape",
+        "title": "Breakout",
+        "icon": "🐳",
+        "avatar": "img/avatar-docker-escape.png",
+        "difficulty": "Hard",
+        "category": "Linux",
+        "description": "You are inside a privileged Docker container. Break out to the host filesystem and capture the root flag.",
+        "longDescription": "You start with a shell inside a Docker container running with elevated privileges. The challenge demonstrates how insecure container configurations — --privileged, exposed Docker socket, dangerous capabilities — can lead to full host compromise.\n\nChain together the misconfigurations to escape the container boundary, pivot to the host, and read the flag from the host's root directory.\n\n### What you will practice\nContainer escape via privileged mode, Docker socket exploitation with nsenter, and understanding the Linux capability model.",
+        "creator": "Dock & Root Labs",
+        "releaseDate": "2026-02-01",
+        "estimatedTime": "90 min",
+        "points": 400,
+        "skills": [
+            "Container Security",
+            "Docker Socket Exploit",
+            "nsenter",
+            "Linux Capabilities"
+        ],
+        "prerequisites": [
+            "Docker fundamentals",
+            "Linux privilege concepts",
+            "Comfortable in a container shell"
+        ],
+        "objectives": [
+            "Understand why --privileged is dangerous",
+            "Mount the host filesystem from inside the container",
+            "Escape the container namespace using nsenter",
+            "Read /root/flag.txt on the host machine"
+        ],
+        "githubUrl": "https://github.com/dock-and-root-labs/docker-escape",
+        "dockerCommands": [
+            "git clone https://github.com/dock-and-root-labs/docker-escape",
+            "cd docker-escape",
+            "docker compose up -d"
+        ],
+        "flagHash": "5bf415943fa29305da8bbc79f47ab7f63f4febe5321f27fa2eb3d4426be2ca1a"
+    },
+    {
+        "id": 4,
+        "slug": "crypto-fundamentals",
+        "title": "Cipher",
+        "icon": "🔐",
+        "avatar": "img/avatar-crypto.png",
+        "difficulty": "Easy",
+        "category": "Crypto",
+        "description": "Decrypt intercepted ciphertexts using classic and modern cryptographic attacks. Covers Caesar, XOR, and weak RSA.",
+        "longDescription": "Three encrypted messages are waiting. Each uses a progressively harder cipher: Caesar rotation, single-byte XOR, and textbook RSA with dangerously small primes.\n\nNo crypto library is required — brute force, frequency analysis, and basic math will get you through. The flag is assembled from fragments inside each decrypted message.\n\n### What you will practice\nFrequency analysis, XOR bruteforcing, RSA factor recovery with small primes, and Python scripting for crypto attacks.",
+        "creator": "Dock & Root Labs",
+        "releaseDate": "2026-02-10",
+        "estimatedTime": "45 min",
+        "points": 100,
+        "skills": [
+            "Classical Ciphers",
+            "XOR Analysis",
+            "RSA Attacks",
+            "Python Scripting"
+        ],
+        "prerequisites": [
+            "Basic Python",
+            "Number theory basics",
+            "Interest in math"
+        ],
+        "objectives": [
+            "Decrypt a Caesar-shifted ciphertext via frequency analysis",
+            "Recover the XOR key and decrypt the second message",
+            "Factor the RSA modulus and decrypt the third message",
+            "Assemble the three flag fragments"
+        ],
+        "githubUrl": "https://github.com/dock-and-root-labs/crypto-fundamentals",
+        "dockerCommands": [
+            "git clone https://github.com/dock-and-root-labs/crypto-fundamentals",
+            "cd crypto-fundamentals",
+            "docker compose up -d"
+        ],
+        "flagHash": "b3cc8b194cad50b8056456bdf617663d4a5b25e0e185d8985ab68e92a3b498af"
+    },
+    {
+        "id": 5,
+        "slug": "buffer-overflow-basics",
+        "title": "Smash",
+        "icon": "💥",
+        "avatar": "img/avatar-buffer-overflow.png",
+        "difficulty": "Medium",
+        "category": "Pwn",
+        "description": "Smash the stack on a 32-bit Linux binary with no stack canary. Redirect execution to a win function and pop a shell.",
+        "longDescription": "A deliberately vulnerable C binary is running as a network service. It reads user input into a fixed-size stack buffer without bounds checking. No stack canary. NX disabled. Perfect for learning classic stack-based buffer overflows.\n\nFind the offset to the return address, craft a payload, and redirect execution to the hidden win() function to get a shell and read the flag.\n\n### What you will practice\nGDB debugging, pattern offset calculation with pwntools, crafting a basic ROP chain, and writing a Python exploit script.",
+        "creator": "Dock & Root Labs",
+        "releaseDate": "2026-02-20",
+        "estimatedTime": "90 min",
+        "points": 300,
+        "skills": [
+            "Stack Smashing",
+            "GDB Debugging",
+            "pwntools",
+            "Return Address Override"
+        ],
+        "prerequisites": [
+            "C memory model",
+            "Assembly basics",
+            "Python pwntools installed"
+        ],
+        "objectives": [
+            "Identify the vulnerable buffer and compute the overflow offset",
+            "Locate the win() function address in the binary",
+            "Craft a payload that overwrites the return address",
+            "Get a shell on the remote service and read the flag"
+        ],
+        "githubUrl": "https://github.com/dock-and-root-labs/buffer-overflow-basics",
+        "dockerCommands": [
+            "git clone https://github.com/dock-and-root-labs/buffer-overflow-basics",
+            "cd buffer-overflow-basics",
+            "docker compose up -d"
+        ],
+        "flagHash": "01f1c341ebf4469fa234d990cd1c6268360f2ccd55dce2dd96ba99fb4f16dd65"
+    },
+    {
+        "id": 6,
+        "slug": "network-traffic-analysis",
+        "title": "Wiretap",
+        "icon": "📡",
+        "avatar": "img/avatar-network-analysis.png",
+        "difficulty": "Medium",
+        "category": "Networking",
+        "description": "Analyze a PCAP capture of suspicious network traffic. Reconstruct the attack, extract credentials, and recover the hidden flag.",
+        "longDescription": "You are given a packet capture file from a compromised network segment. Inside: cleartext credential submission, a file transfer, and an exfiltrated secret hidden in DNS queries.\n\nUse Wireshark and tshark to filter, reconstruct, and decode the traffic streams. No active exploitation required — this is pure packet analysis.\n\n### What you will practice\nWireshark filters, TCP stream reconstruction, HTTP credential extraction, DNS-based data exfiltration detection, and file carving from PCAPs.",
+        "creator": "Dock & Root Labs",
+        "releaseDate": "2026-03-01",
+        "estimatedTime": "60 min",
+        "points": 250,
+        "skills": [
+            "Wireshark",
+            "tshark",
+            "TCP Reconstruction",
+            "DNS Analysis",
+            "File Carving"
+        ],
+        "prerequisites": [
+            "TCP/IP basics",
+            "Wireshark installed on host",
+            "Basic networking knowledge"
+        ],
+        "objectives": [
+            "Identify the attacker's IP address and attack timeline",
+            "Extract the cleartext credentials from HTTP traffic",
+            "Reconstruct the transferred file from the PCAP",
+            "Decode the flag hidden inside DNS query names"
+        ],
+        "githubUrl": "https://github.com/dock-and-root-labs/network-traffic-analysis",
+        "dockerCommands": [
+            "git clone https://github.com/dock-and-root-labs/network-traffic-analysis",
+            "cd network-traffic-analysis"
+        ],
+        "flagHash": "7a60e18b4416ccbb63af955d0ec7fcc2144aa02293c13dc983cc9c390fd307d5"
+    },
+    {
+        "id": 7,
+        "slug": "reverse-engineering-password-cracker",
+        "title": "Reversal",
+        "icon": "🔬",
+        "avatar": "img/avatar-reverse-engineering.png",
+        "difficulty": "Easy",
+        "category": "Reverse Engineering",
+        "description": "Analyze a stripped ELF binary that validates a password. Reverse the check logic and recover the correct password to get the flag.",
+        "longDescription": "A compiled Linux ELF binary prompts for a password. If correct, it prints the flag. If wrong, it exits silently. The binary is stripped — no debug symbols.\n\nUse Ghidra or radare2 to decompile the main function, understand the password validation logic, and derive or brute-force the correct input.\n\n### What you will practice\nStatic analysis in Ghidra, disassembly reading, understanding string operations in x86, and writing a keygen script.",
+        "creator": "Dock & Root Labs",
+        "releaseDate": "2026-03-10",
+        "estimatedTime": "45 min",
+        "points": 150,
+        "skills": [
+            "Ghidra",
+            "Static Analysis",
+            "x86 Assembly",
+            "ELF Reversing"
+        ],
+        "prerequisites": [
+            "Basic assembly reading",
+            "Ghidra or objdump installed",
+            "Linux environment"
+        ],
+        "objectives": [
+            "Load the binary in Ghidra and navigate to main()",
+            "Understand the password comparison logic",
+            "Derive the correct password from the decompiled code",
+            "Run the binary with the correct password to reveal the flag"
+        ],
+        "githubUrl": "https://github.com/dock-and-root-labs/re-password-cracker",
+        "dockerCommands": [
+            "git clone https://github.com/dock-and-root-labs/re-password-cracker",
+            "cd re-password-cracker"
+        ],
+        "flagHash": "25453496231c43e0226bfef7129a52294a6cdd51749d4dd461c1a4567e8d0149"
+    },
+    {
+        "id": 8,
+        "slug": "local-file-inclusion",
+        "title": "Infiltrator",
+        "icon": "📁",
+        "avatar": "img/avatar-lfi.png",
+        "difficulty": "Medium",
+        "category": "Web",
+        "description": "Exploit a PHP LFI vulnerability to read sensitive system files and escalate to Remote Code Execution through log poisoning.",
+        "longDescription": "A PHP web application uses a ?page= parameter to include template files — without sanitizing path traversal sequences. The vulnerability is a textbook Local File Inclusion.\n\nStart by reading /etc/passwd to confirm the vulnerability, then escalate to Remote Code Execution via Apache log poisoning to get a shell and read the flag.\n\n### What you will practice\nPath traversal, PHP wrappers (php://filter), log poisoning via User-Agent injection, and chaining LFI to RCE.",
+        "creator": "Dock & Root Labs",
+        "releaseDate": "2026-03-15",
+        "estimatedTime": "75 min",
+        "points": 250,
+        "skills": [
+            "Path Traversal",
+            "PHP LFI",
+            "Log Poisoning",
+            "RCE via LFI",
+            "Burp Suite"
+        ],
+        "prerequisites": [
+            "HTTP request manipulation",
+            "Basic PHP understanding",
+            "Burp Suite or curl"
+        ],
+        "objectives": [
+            "Identify the LFI vulnerability in the page parameter",
+            "Read /etc/passwd via path traversal",
+            "Poison the Apache access log with PHP code via User-Agent",
+            "Trigger log inclusion to execute code and read the flag"
+        ],
+        "githubUrl": "https://github.com/dock-and-root-labs/local-file-inclusion",
+        "dockerCommands": [
+            "git clone https://github.com/dock-and-root-labs/local-file-inclusion",
+            "cd local-file-inclusion",
+            "docker compose up -d"
+        ],
+        "flagHash": "3694bce077431f8405185d807814f55982aadf074d44acf4d67e4350774d85b9"
+    }
+]

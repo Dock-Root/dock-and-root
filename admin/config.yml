@@ -1,0 +1,74 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Media files stored in the repo
+media_folder: "img"
+public_folder: "/img"
+
+# Use Netlify Identity
+local_backend: false
+
+collections:
+  - name: "machines"
+    label: "Machines"
+    label_singular: "Machine"
+    # Manages the single labs.json file as a list
+    files:
+      - name: "labs"
+        label: "All Machines"
+        file: "data/labs.json"
+        fields:
+          - label: "Machines"
+            name: "machines"
+            widget: "list"
+            summary: "{{fields.title}} — {{fields.difficulty}} {{fields.category}}"
+            fields:
+              - { label: "ID",          name: "id",           widget: "number",  value_type: "int" }
+              - { label: "Slug",        name: "slug",         widget: "string",  hint: "URL-safe identifier e.g. web-sql-injection" }
+              - { label: "Title",       name: "title",        widget: "string" }
+              - { label: "Icon",        name: "icon",         widget: "string",  default: "🎯", hint: "Emoji icon" }
+              - label: "Avatar Image"
+                name: "avatar"
+                widget: "image"
+                hint: "Square image, min 256×256px. Stored in /img/"
+              - label: "Difficulty"
+                name: "difficulty"
+                widget: "select"
+                options: ["Easy", "Medium", "Hard", "Insane"]
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options: ["Web", "Linux", "Crypto", "Pwn", "Reverse Engineering", "Networking", "Forensics"]
+              - { label: "Short Description", name: "description",     widget: "text",   hint: "2-3 sentence summary shown on the card" }
+              - { label: "Long Description",  name: "longDescription", widget: "markdown", hint: "Full description shown on the machine page. Supports markdown." }
+              - { label: "Creator",     name: "creator",      widget: "string",  default: "Dock & Root Labs" }
+              - { label: "Release Date",name: "releaseDate",  widget: "date",    format: "YYYY-MM-DD" }
+              - { label: "Estimated Time", name: "estimatedTime", widget: "string", default: "60 min" }
+              - { label: "Points",      name: "points",       widget: "number",  value_type: "int", default: 100 }
+              - label: "Skills"
+                name: "skills"
+                widget: "list"
+                hint: "e.g. SQL Injection, Burp Suite"
+                field: { label: "Skill", name: "skill", widget: "string" }
+              - label: "Prerequisites"
+                name: "prerequisites"
+                widget: "list"
+                hint: "What the user should already know"
+                field: { label: "Prerequisite", name: "prerequisite", widget: "string" }
+              - label: "Objectives"
+                name: "objectives"
+                widget: "list"
+                hint: "Ordered learning objectives"
+                field: { label: "Objective", name: "objective", widget: "string" }
+              - { label: "GitHub URL",  name: "githubUrl",    widget: "string",  hint: "Full URL to the machine's GitHub repository" }
+              - label: "Docker Commands"
+                name: "dockerCommands"
+                widget: "list"
+                hint: "Setup commands (git clone, cd, docker compose up)"
+                field: { label: "Command", name: "command", widget: "string" }
+              - label: "Flag Hash (SHA-256)"
+                name: "flagHash"
+                widget: "string"
+                hint: "SHA-256 hash of the flag. Use /admin/hash.html to generate. NEVER store the raw flag here."
+                required: false

@@ -1,0 +1,17 @@
+[build]
+  publish = "."
+  command = "echo 'Static site — no build step needed'"
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/identity"
+  to = "https://identity.netlify.com/v1/gotrue/api"
+  status = 200
+  force = true
+
+[context.production]
+  environment = { NODE_ENV = "production" }
