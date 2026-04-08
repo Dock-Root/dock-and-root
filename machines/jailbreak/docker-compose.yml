@@ -1,0 +1,8 @@
+version: '3'
+services:
+  jailbreak:
+    build: .
+    ports:
+      - "8001:80"
+    restart: unless-stopped
+    container_name: boot2root-jailbreak

@@ -1,0 +1,17 @@
+{
+    "longDescription": "A simulated network diagnostics tool with a poorly configured chroot jail. Exploit a simple command injection vulnerability and then leverage the incomplete chroot implementation to escape to the host filesystem and obtain root privileges.",
+    "points": 20,
+    "estimatedTime": "45 min",
+    "slug": "jailbreak",
+    "creator": "System",
+    "githubUrl": "https://github.com/system",
+    "releaseDate": "2026-04-08",
+    "title": "Jailbreak",
+    "icon": "⛓️",
+    "avatar": "/img/unnamed.png",
+    "flagHash": "2538ecdf8343ca6a76aa0d75256ca6f2a4460cc57720412833ecd9f7ae5a774e",
+    "id": 101,
+    "difficulty": "Easy",
+    "description": "Escape the restricted chroot environment.",
+    "category": "Linux"
+}

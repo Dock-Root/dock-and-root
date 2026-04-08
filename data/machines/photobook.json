@@ -1,0 +1,17 @@
+{
+    "longDescription": "A simulated developer blog with a Local File Inclusion vulnerability. Poison the Apache access log to inject PHP code and execute a reverse shell, then exploit a misconfigured SUID binary to copy root files.",
+    "points": 20,
+    "estimatedTime": "45 min",
+    "slug": "photobook",
+    "creator": "System",
+    "githubUrl": "https://github.com/system",
+    "releaseDate": "2026-04-08",
+    "title": "Photobook",
+    "icon": "📸",
+    "avatar": "/img/unnamed.png",
+    "flagHash": "b0a2000339c20ae2279554a7f4809724401577d9a35d83c59658670bf895a173",
+    "id": 102,
+    "difficulty": "Easy",
+    "description": "LFI Log Poisoning and SUID Escalate.",
+    "category": "Linux"
+}

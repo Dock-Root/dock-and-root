@@ -1,0 +1,17 @@
+{
+    "longDescription": "A simulated Node.js diagnostic portal containing hardcoded credentials. Bypass the application authentication and use the vulnerable admin execution panel to get RCE. Use the permissive sudoers rule for less to elevate your privileges to root.",
+    "points": 20,
+    "estimatedTime": "30 min",
+    "slug": "support",
+    "creator": "System",
+    "githubUrl": "https://github.com/system",
+    "releaseDate": "2026-04-08",
+    "title": "Support",
+    "icon": "🔧",
+    "avatar": "/img/unnamed.png",
+    "flagHash": "9c204bbac05e7d89d67c238486f4115daf34e974316470299491089699b079e8",
+    "id": 103,
+    "difficulty": "Easy",
+    "description": "Exploit weak passwords and sudo less.",
+    "category": "Linux"
+}

@@ -1,0 +1,8 @@
+version: '3'
+services:
+  photobook:
+    build: .
+    ports:
+      - "8002:80"
+    restart: unless-stopped
+    container_name: boot2root-photobook

@@ -1,0 +1,17 @@
+{
+    "longDescription": "A simulated internal archive web portal featuring an unrestricted file upload vulnerability leading to Remote Code Execution. An improperly configured cleanup cronjob running as root executes a world-writable script, allowing easy privilege escalation.",
+    "points": 30,
+    "estimatedTime": "45 min",
+    "slug": "archive",
+    "creator": "System",
+    "githubUrl": "https://github.com/system",
+    "releaseDate": "2026-04-08",
+    "title": "Archive",
+    "icon": "📦",
+    "avatar": "/img/unnamed.png",
+    "flagHash": "50468a5279bb6b0515939fd06f9a3c70187cf64cf5b77b05a231728d39ee5c88",
+    "id": 104,
+    "difficulty": "Easy",
+    "description": "Exploit file uploads and vulnerable cronjobs.",
+    "category": "Linux"
+}

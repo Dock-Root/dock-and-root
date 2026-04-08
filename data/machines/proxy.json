@@ -1,0 +1,17 @@
+{
+    "longDescription": "A Python web application containing a standard Server-Side Request Forgery logic flaw that allows viewing pages on the internal network. Access the hidden internal administrative panel to gain a foothold via command execution, and abuse a misconfigured sudo permission for apt-get to escalate to root.",
+    "points": 30,
+    "estimatedTime": "45 min",
+    "slug": "proxy",
+    "creator": "System",
+    "githubUrl": "https://github.com/system",
+    "releaseDate": "2026-04-08",
+    "title": "Proxy",
+    "icon": "🌐",
+    "avatar": "/img/unnamed.png",
+    "flagHash": "c0d7a3863af6a1a84a15f3d19993e68bda38b8c969b700d90bdaaed5fb6afc36",
+    "id": 105,
+    "difficulty": "Easy",
+    "description": "Exploit SSRF and apt-get sudo privileges.",
+    "category": "Linux"
+}
